@@ -13,6 +13,10 @@ bot.hears("hello", (ctx) => {
     return ctx.reply("Hello!");
 });
 
+bot.hears("хочу есть", (ctx) => {
+    ctx.reply("Так иди и покушай");
+});
+
 bot.on("sticker", (ctx) => {
     ctx.reply("Прикольный стикер");
 });
