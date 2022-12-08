@@ -9,8 +9,10 @@ const bot = new Telegraf(process.env.TOKEN);
 const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
-bot.on("text", ctx => ctx.reply("Hello"));
-
+bot.on("text", ctx => {
+    console.log("[LOG] : ctx", ctx);
+    return ctx.reply("Hello");
+});
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
 
 // console.log("[LOG] : bot.secretPathComponent()", bot.secretPathComponent());
