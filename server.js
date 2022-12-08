@@ -10,18 +10,23 @@ const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
 bot.command("commands", (ctx) => {
-    ctx.replyWithHTML(`
-<b>CTRL + C</b> - копировать
-<b>CTRL + V</b> - вставить
-<b>CTRL + Z</b> - отменить
-<b>ALT + F4</b> - закрыть окно
-<b>F5</b> - обновить страницу в браузере
-    `);
+    ctx.replyWithHTML(
+        "<b>CTRL + C</b> - копировать\n" +
+            "<b>CTRL + V</b> - вставить\n" +
+            "<b>CTRL + Z</b> - отменить\n" +
+            "<b>ALT + F4</b> - закрыть окно\n" +
+            "<b>F5</b> - обновить страницу в браузере"
+    );
 });
 
 bot.command("dog", async (ctx) => {
     const dog = await (await fetch("https://random.dog/woof.json")).json();
     ctx.replyWithPhoto(dog.url);
+});
+
+bot.command("fox", async (ctx) => {
+    const fox = await (await fetch("https://randomfox.ca/floof/")).json();
+    ctx.replyWithPhoto(fox.image);
 });
 
 bot.hears(/hello/i, (ctx) => {
