@@ -11,10 +11,10 @@ const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
 bot.command("commands", (ctx) => {
     ctx.replyWithHTML(`
-        <b>CTRL + C</b> - копировать<br>
-        <b>CTRL + V</b> - вставить<br>
-        <b>CTRL + Z</b> - отменить<br>
-        <b>F5</b> - обновить страницу в браузере<br>
+        <b>CTRL + C</b> - копировать
+        <b>CTRL + V</b> - вставить
+        <b>CTRL + Z</b> - отменить
+        <b>F5</b> - обновить страницу в браузере
         <b>ALT + F4</b> - закрыть окно
     `);
 });
