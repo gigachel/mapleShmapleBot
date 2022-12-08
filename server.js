@@ -1,12 +1,12 @@
-import Fastify from "fastify";
+// import Fastify from "fastify";
 import { Telegraf } from "telegraf";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 3000;
+// const port = 3000;
 const bot = new Telegraf(process.env.TOKEN);
-const app = Fastify();
+// const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
 bot.command("commands", (ctx) => {
