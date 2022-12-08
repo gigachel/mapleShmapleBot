@@ -13,18 +13,18 @@ bot.hears("hello", (ctx) => {
     return ctx.reply("Hello!");
 });
 
-bot.on("text", (ctx) => {
-    console.log("[LOG] : ctx", ctx.update);
-    const user = ctx.update.message.from;
-    return ctx.reply("Hello, " + user.first_name + "!");
-});
-
 bot.on("sticker", (ctx) => {
     ctx.reply("Прикольный стикер");
 });
 
 bot.on("edited_message", (ctx) => {
     ctx.reply("Эээ, не меняй сообщения!!!");
+});
+
+bot.on("text", (ctx) => {
+    // console.log("[LOG] : ctx", ctx.update);
+    const user = ctx.update.message.from;
+    return ctx.reply("Hello, " + user.first_name + "!");
 });
 
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
