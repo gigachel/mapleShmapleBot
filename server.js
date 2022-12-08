@@ -10,7 +10,7 @@ const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
 bot.command("commands", (ctx) => {
-    ctx.reply("<b>CTRL + C</b> - копировать");
+    ctx.reply("<b>CTRL + C</b> - копировать", { parse_mode: "html" });
 });
 
 bot.hears("hello", (ctx) => {
