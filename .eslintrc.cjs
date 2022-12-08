@@ -1,10 +1,8 @@
 module.exports = {
-    // export default {
     env: {
         node: true,
         es2020: true,
     },
-    parser: "@babel/eslint-parser",
     parserOptions: {
         sourceType: "module",
         requireConfigFile: false,

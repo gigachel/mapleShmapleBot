@@ -19,7 +19,12 @@ bot.command("commands", (ctx) => {
     `);
 });
 
-bot.hears("hello", (ctx) => {
+bot.command("dog", async (ctx) => {
+    const dog = await (await fetch("https://random.dog/woof.json")).json();
+    ctx.replyWithPhoto(dog.url);
+});
+
+bot.hears(/hello/i, (ctx) => {
     return ctx.reply("Hello!");
 });
 
