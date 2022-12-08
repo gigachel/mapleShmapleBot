@@ -19,6 +19,11 @@ bot.command("commands", (ctx) => {
     );
 });
 
+bot.command("cat", async (ctx) => {
+    const cat = await (await fetch("https://aws.random.cat/meow")).json();
+    ctx.replyWithPhoto(cat.file);
+});
+
 bot.command("dog", async (ctx) => {
     const dog = await (await fetch("https://random.dog/woof.json")).json();
     ctx.replyWithPhoto(dog.url);
