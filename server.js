@@ -19,4 +19,4 @@ app.get("/", async (request, reply) => {
     return "!";
 });
 
-app.listen({ port: port }).then(() => console.log("Listening on port", port));
+app.listen({ host: "0.0.0.0", port: port }).then(() => console.log("Listening on port", port));
