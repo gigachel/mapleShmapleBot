@@ -14,6 +14,11 @@ bot.on("text", (ctx) => {
     const user = ctx.update.message.from;
     return ctx.reply("Hello, " + user.first_name + "!");
 });
+
+bot.hears("hello", async (ctx) => {
+    await ctx.reply("Hello!");
+});
+
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
 
 // console.log("[LOG] : bot.secretPathComponent()", bot.secretPathComponent());
@@ -42,3 +47,6 @@ bot.launch({
         //   secretToken: randomAlphaNumericString,
     },
 });
+
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
