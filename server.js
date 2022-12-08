@@ -1,17 +1,21 @@
 import Fastify from "fastify";
 import { Telegraf } from "telegraf";
+import dotenv from "dotenv";
 
-const bot = new Telegraf(token);
-const app = Fastify();
+dotenv.config();
+// const token = "";
 const port = 8080;
+const bot = new Telegraf(process.env.TOKEN);
+const app = Fastify();
+const webhookDomain = "maple-shmaple-bot.vercel.app";
 
-const webhook = await bot.createWebhook({ domain: webhookDomain });
+const webhook = await bot.createWebhook({ domain: webhookDomain, port: port });
 
-app.post(bot.secretPathComponent(), (req, rep) => webhook(req.raw, rep.raw));
-
+console.log("[LOG] : bot.secretPathComponent()", bot.secretPathComponent());
+app.post('/'+bot.secretPathComponent(), (req, rep) => webhook(req.raw, rep.raw));
 bot.on("text", ctx => ctx.reply("Hello"));
 
-fastify.get("/", async (request, reply) => {
+app.get("/", async (request, reply) => {
     return "!";
 });
 
