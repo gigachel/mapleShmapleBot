@@ -9,14 +9,22 @@ const bot = new Telegraf(process.env.TOKEN);
 const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
+bot.hears("hello", (ctx) => {
+    return ctx.reply("Hello!");
+});
+
 bot.on("text", (ctx) => {
     console.log("[LOG] : ctx", ctx.update);
     const user = ctx.update.message.from;
     return ctx.reply("Hello, " + user.first_name + "!");
 });
 
-bot.hears("hello", (ctx) => {
-    return ctx.reply("Hello!");
+bot.on("sticker", (ctx) => {
+    ctx.reply("Прикольный стикер");
+});
+
+bot.on("edited_message", (ctx) => {
+    ctx.reply("Эээ, не меняй сообщения!!!");
 });
 
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
