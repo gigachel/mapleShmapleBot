@@ -15,8 +15,8 @@ bot.on("text", (ctx) => {
     return ctx.reply("Hello, " + user.first_name + "!");
 });
 
-bot.hears("hello", async (ctx) => {
-    await ctx.reply("Hello!");
+bot.hears("hello", (ctx) => {
+    return ctx.reply("Hello!");
 });
 
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
