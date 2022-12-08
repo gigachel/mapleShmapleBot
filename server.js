@@ -23,7 +23,7 @@ bot.hears("hello", (ctx) => {
     return ctx.reply("Hello!");
 });
 
-bot.hears("хочу есть", (ctx) => {
+bot.hears(/хочу есть/i, (ctx) => {
     ctx.reply("Так иди и покушай!");
 });
 
