@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 8080;
+const port = 443;
 const bot = new Telegraf(process.env.TOKEN);
 const app = Fastify();
 const webhookDomain = "maple-shmaple-bot.vercel.app";
