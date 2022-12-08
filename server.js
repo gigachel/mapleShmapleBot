@@ -11,7 +11,8 @@ const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
 bot.on("text", ctx => {
     console.log("[LOG] : ctx", ctx);
-    return ctx.reply("Hello");
+    user = update.message.from_user;
+    return ctx.reply("Hello, " + user.username + "!");
 });
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
 
