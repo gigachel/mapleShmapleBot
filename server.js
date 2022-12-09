@@ -44,7 +44,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
     ).json();
 
     return ctx.reply(
-        json
+        search + JSON.stringify(json)
 
         // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
         //     columns: parseInt(ctx.match[1]),
