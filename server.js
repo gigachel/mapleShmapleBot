@@ -34,9 +34,18 @@ bot.command("fox", async (ctx) => {
     ctx.replyWithPhoto(fox.image);
 });
 
-bot.hears(/\/wiki (.+)/, (ctx) => {
+bot.hears(/\/wiki (.+)/, async (ctx) => {
+    const search = ctx.match[1];
+    const json = await (
+        await fetch(
+            "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=&srlimit=10&srsearch=" +
+                search
+        )
+    ).json();
+
     return ctx.reply(
-        ctx.match[1]
+        json
+
         // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
         //     columns: parseInt(ctx.match[1]),
         // })
