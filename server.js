@@ -35,13 +35,13 @@ bot.command("fox", async (ctx) => {
 });
 
 bot.hears(/\/wiki (.+)/, async (ctx) => {
-    let search = ctx.match[1];
+    const search = ctx.match[1];
 
     if (!search) {
         return ctx.reply("После /wiki напиши слово, которое надо найти");
     }
 
-    search = search.replace(" ", "_");
+    // search = search.replace(" ", "_");
 
     // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
     const articlesList = await (
@@ -51,6 +51,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                     action: "opensearch",
                     limit: 5,
                     namespace: 0,
+                    redirects: "resolve",
                     format: "json",
                     utf8: "",
                     search: search,
@@ -59,6 +60,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
     ).json();
 
     const firstMatch = articlesList[1][0];
+    // firstMatch = firstMatch.replace(" ", "_");
 
     const article = await (
         await fetch(
