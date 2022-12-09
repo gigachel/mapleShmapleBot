@@ -35,7 +35,14 @@ bot.command("fox", async (ctx) => {
 });
 
 bot.hears(/\/wiki (.+)/, async (ctx) => {
-    const search = ctx.match[1];
+    let search = ctx.match[1];
+
+    if (!search) {
+        return ctx.reply("После /wiki напиши слово, которое надо найти");
+    }
+
+    search = search.replace(" ", "_");
+
     // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
     const articlesList = await (
         await fetch(
@@ -52,7 +59,6 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
     ).json();
 
     const firstMatch = articlesList[1][0];
-    console.log("[LOG] : bot.hears : firstMatch", firstMatch);
 
     const article = await (
         await fetch(
@@ -68,10 +74,8 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                 })
         )
     ).json();
-    console.log("[LOG] : bot.hears : article", article);
 
     const page = Object.values(article.query.pages)[0];
-    console.log("[LOG] : bot.hears : page", page);
 
     return ctx.reply(page.extract || "😵");
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
