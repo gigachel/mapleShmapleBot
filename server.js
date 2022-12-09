@@ -73,7 +73,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
     const page = Object.values(article.query.pages)[0];
     console.log("[LOG] : bot.hears : page", page);
 
-    return ctx.reply(page.extract);
+    return ctx.reply(page.extract || "😵");
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
     //     columns: parseInt(ctx.match[1]),
     // })
