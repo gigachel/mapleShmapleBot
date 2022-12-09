@@ -50,9 +50,9 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                 })
         )
     ).json();
-    console.log("[LOG] : bot.hears : articlesList", articlesList);
 
     const firstMatch = articlesList[1][0];
+    console.log("[LOG] : bot.hears : firstMatch", firstMatch);
 
     const article = await (
         await fetch(
@@ -67,8 +67,10 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                 })
         )
     ).json();
+    console.log("[LOG] : bot.hears : article", article);
 
     const page = Object.values(article.query.pages)[0];
+    console.log("[LOG] : bot.hears : page", page);
 
     return ctx.reply(page.extract);
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
