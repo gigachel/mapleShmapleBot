@@ -41,10 +41,10 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
             "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=&srlimit=10&srsearch=" +
                 search
         )
-    ).json();
+    ).text();
 
     return ctx.reply(
-        search + JSON.stringify(json)
+        search + json
 
         // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
         //     columns: parseInt(ctx.match[1]),
