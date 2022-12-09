@@ -38,7 +38,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
     const search = ctx.match[1];
     const json = await (
         await fetch(
-            "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=&srlimit=10&srsearch=" +
+            "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
                 search
         )
     ).text();
