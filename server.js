@@ -36,20 +36,43 @@ bot.command("fox", async (ctx) => {
 
 bot.hears(/\/wiki (.+)/, async (ctx) => {
     const search = ctx.match[1];
-    const json = await (
+    // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
+    const articlesList = await (
         await fetch(
-            "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
-                search
+            "https://ru.wikipedia.org/w/api.php?" +
+                new URLSearchParams({
+                    action: "opensearch",
+                    limit: 5,
+                    namespace: 0,
+                    format: "json",
+                    utf8: "",
+                    search: search,
+                })
         )
-    ).text();
+    ).json();
 
-    return ctx.reply(
-        search + json
+    const firstMatch = articlesList[1][0];
 
-        // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
-        //     columns: parseInt(ctx.match[1]),
-        // })
-    );
+    const article = await (
+        await fetch(
+            "https://ru.wikipedia.org/w/api.php?" +
+                new URLSearchParams({
+                    action: "query",
+                    prop: "extracts",
+                    exintro: "",
+                    explaintext: "",
+                    utf8: "",
+                    titles: firstMatch,
+                })
+        )
+    ).json();
+
+    const page = Object.values(article.query.pages)[0];
+
+    return ctx.reply(page.extract);
+    // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
+    //     columns: parseInt(ctx.match[1]),
+    // })
 });
 
 bot.hears(/hello/i, (ctx) => {
