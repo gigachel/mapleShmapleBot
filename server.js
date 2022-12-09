@@ -34,6 +34,15 @@ bot.command("fox", async (ctx) => {
     ctx.replyWithPhoto(fox.image);
 });
 
+bot.hears(/\/wiki (.+)/, (ctx) => {
+    return ctx.reply(
+        ctx.match[1]
+        // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
+        //     columns: parseInt(ctx.match[1]),
+        // })
+    );
+});
+
 bot.hears(/hello/i, (ctx) => {
     return ctx.reply("Hello!");
 });
