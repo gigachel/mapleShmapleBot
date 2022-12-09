@@ -34,10 +34,10 @@ bot.command("fox", async (ctx) => {
     ctx.replyWithPhoto(fox.image);
 });
 
-bot.hears(/\/wiki (.+)/, async (ctx) => {
+bot.hears(/\/wiki(.*)/, async (ctx) => {
     const search = ctx.match[1];
 
-    if (!search) {
+    if (!search || !search.trim()) {
         return ctx.reply("После /wiki напиши слово, которое надо найти");
     }
 
