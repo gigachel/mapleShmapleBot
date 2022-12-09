@@ -50,6 +50,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                 })
         )
     ).json();
+    console.log("[LOG] : bot.hears : articlesList", articlesList);
 
     const firstMatch = articlesList[1][0];
 
