@@ -62,6 +62,7 @@ bot.hears(/\/wiki (.+)/, async (ctx) => {
                     prop: "extracts",
                     exintro: "",
                     explaintext: "",
+                    format: "json",
                     utf8: "",
                     titles: firstMatch,
                 })
