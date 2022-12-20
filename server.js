@@ -121,12 +121,12 @@ bot.hears(/\/wiki(.*)/, async (ctx) => {
     // })
 });
 
-// bot.hears(/hello/i, (ctx) => {
-//     // ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
-//     Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
-//     // return ctx.reply("Hello!");
-// });
-bot.hears(/hello/i, Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID"));
+bot.hears(/hello/i, (ctx) => {
+    ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
+    // Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
+    // return ctx.reply("Hello!");
+});
+// bot.hears(/hello/i, Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID"));
 
 bot.hears(/хочу есть/i, (ctx) => {
     ctx.reply("Так иди и покушай!");
