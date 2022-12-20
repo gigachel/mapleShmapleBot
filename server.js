@@ -1,5 +1,6 @@
 // import Fastify from "fastify";
 import { Telegraf, Scenes, session } from "telegraf";
+import { Bot } from "grammy";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -8,6 +9,14 @@ dotenv.config();
 const bot = new Telegraf(process.env.TOKEN);
 // const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
+const grammyBot = new Bot(process.env.TOKEN);
+
+grammyBot.command("test", (ctx) => {
+    const item = ctx.match;
+    return ctx.reply(item || "nope");
+});
+
+grammyBot.start();
 
 const contactDataWizard = new Scenes.WizardScene(
     "CONTACT_DATA_WIZARD_SCENE_ID", // first argument is Scene_ID, same as for BaseScene
@@ -143,8 +152,8 @@ bot.on("edited_message", (ctx) => {
 bot.on("text", (ctx) => {
     // console.log("[LOG] : ctx", ctx.update);
     const user = ctx.update.message.from;
-    // return ctx.reply("Hello, " + user.first_name + "!");
-    return ctx.replyWithDice();
+    return ctx.reply("Hello, " + user.first_name + "!");
+    // return ctx.replyWithDice();
 });
 
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
