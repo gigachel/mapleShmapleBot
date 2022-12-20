@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 443;
+const port = 3000;
 // // app.get("/", async (request, reply) => {
 // //     return "!!";
 // // });
