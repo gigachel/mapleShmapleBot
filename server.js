@@ -1,5 +1,6 @@
 // import Fastify from "fastify";
 import { Telegraf, Scenes } from "telegraf";
+import session from "telegraf/session.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -35,6 +36,7 @@ const contactDataWizard = new Scenes.WizardScene(
 );
 
 const stage = new Scenes.Stage([contactDataWizard]);
+bot.use(session());
 bot.use(stage.middleware());
 
 bot.command("hotkeys", (ctx) => {
