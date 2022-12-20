@@ -143,7 +143,8 @@ bot.on("edited_message", (ctx) => {
 bot.on("text", (ctx) => {
     // console.log("[LOG] : ctx", ctx.update);
     const user = ctx.update.message.from;
-    return ctx.reply("Hello, " + user.first_name + "!");
+    // return ctx.reply("Hello, " + user.first_name + "!");
+    return ctx.replyWithDice();
 });
 
 // const webhook = await bot.createWebhook({ domain: webhookDomain });
