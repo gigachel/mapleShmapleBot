@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 443;
+const port = 80;
 // // app.get("/", async (request, reply) => {
 // //     return "!!";
 // // });
@@ -24,7 +24,7 @@ grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 
 // app.register(webhookCallback(grammyBot, "fastify"));
 app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
-app.listen({ port: port }).then(() => console.log("Listening on port", port));
+app.listen({ port: port, host: "0.0.0.0" }).then(() => console.log("Listening on port", port));
 
 // const bot = new Telegraf(process.env.TOKEN);
 // const contactDataWizard = new Scenes.WizardScene(
