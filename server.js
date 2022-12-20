@@ -28,7 +28,7 @@ app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
 app.get(`/111`, async (request, reply) => {
     return "world";
 });
-app.listen({ port: port, host: "0.0.0.0" }).then(() => console.log("Listening on port", port));
+app.listen({ port: port }).then(() => console.log("Listening on port", port));
 
 // const bot = new Telegraf(process.env.TOKEN);
 // const contactDataWizard = new Scenes.WizardScene(
