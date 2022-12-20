@@ -20,9 +20,10 @@ grammyBot.command("test", (ctx) => {
 });
 grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 
-grammyBot.start();
+// grammyBot.start();
 
-app.register(webhookCallback(grammyBot, "fastify"));
+// app.register(webhookCallback(grammyBot, "fastify"));
+app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
 app.listen({ port: port }).then(() => console.log("Listening on port", port));
 
 // const bot = new Telegraf(process.env.TOKEN);
