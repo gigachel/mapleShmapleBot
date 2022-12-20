@@ -167,23 +167,23 @@ bot.on("text", (ctx) => {
 
 // app.listen({ port: port }).then(() => console.log("Listening on port", port));
 
-bot.launch({
-    webhook: {
-        // Public domain for webhook; e.g.: example.com
-        domain: webhookDomain,
+// bot.launch({
+//     webhook: {
+//         // Public domain for webhook; e.g.: example.com
+//         domain: webhookDomain,
 
-        // Port to listen on; e.g.: 8080
-        //   port: port,
+//         // Port to listen on; e.g.: 8080
+//         //   port: port,
 
-        // Optional path to listen for.
-        // `bot.secretPathComponent()` will be used by default
-        //   hookPath: webhookPath,
+//         // Optional path to listen for.
+//         // `bot.secretPathComponent()` will be used by default
+//         //   hookPath: webhookPath,
 
-        // Optional secret to be sent back in a header for security.
-        // e.g.: `crypto.randomBytes(64).toString("hex")`
-        //   secretToken: randomAlphaNumericString,
-    },
-});
+//         // Optional secret to be sent back in a header for security.
+//         // e.g.: `crypto.randomBytes(64).toString("hex")`
+//         //   secretToken: randomAlphaNumericString,
+//     },
+// });
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
