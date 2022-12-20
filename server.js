@@ -23,8 +23,8 @@ grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 // grammyBot.start();
 
 // app.register(webhookCallback(grammyBot, "fastify"));
-// app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
-app.post(`/`, webhookCallback(grammyBot, "fastify"));
+app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
+// app.post(`/`, webhookCallback(grammyBot, "fastify"));
 app.get(`/111`, async (request, reply) => {
     return "world";
 });
