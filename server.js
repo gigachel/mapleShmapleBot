@@ -1,6 +1,5 @@
 // import Fastify from "fastify";
-import { Telegraf, Scenes } from "telegraf";
-import { session } from "telegraf/session";
+import { Telegraf, Scenes, session } from "telegraf";
 import dotenv from "dotenv";
 
 dotenv.config();
