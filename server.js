@@ -1,13 +1,16 @@
-// import Fastify from "fastify";
+import Fastify from "fastify";
 import { Telegraf, Scenes, session } from "telegraf";
-import { Bot } from "grammy";
+import { Bot, webhookCallback } from "grammy";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-// const port = 3000;
-// const bot = new Telegraf(process.env.TOKEN);
-// const app = Fastify();
+const port = 443;
+// // app.get("/", async (request, reply) => {
+// //     return "!!";
+// // });
+const app = Fastify();
+
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 const grammyBot = new Bot(process.env.TOKEN);
 
@@ -19,6 +22,10 @@ grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 
 grammyBot.start();
 
+app.register(webhookCallback(grammyBot, "fastify"));
+app.listen({ port: port }).then(() => console.log("Listening on port", port));
+
+// const bot = new Telegraf(process.env.TOKEN);
 // const contactDataWizard = new Scenes.WizardScene(
 //     "CONTACT_DATA_WIZARD_SCENE_ID", // first argument is Scene_ID, same as for BaseScene
 //     (ctx) => {
@@ -161,12 +168,6 @@ grammyBot.start();
 
 // // console.log("[LOG] : bot.secretPathComponent()", bot.secretPathComponent());
 // // app.post('/'+bot.secretPathComponent(), (req, rep) => webhook(req.raw, rep.raw));
-
-// // app.get("/", async (request, reply) => {
-// //     return "!!";
-// // });
-
-// // app.listen({ port: port }).then(() => console.log("Listening on port", port));
 
 // bot.launch({
 //     webhook: {
