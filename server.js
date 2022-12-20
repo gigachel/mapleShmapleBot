@@ -1,5 +1,5 @@
 // import Fastify from "fastify";
-import { Telegraf } from "telegraf";
+import { Telegraf, Scenes } from "telegraf";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -9,11 +9,43 @@ const bot = new Telegraf(process.env.TOKEN);
 // const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 
-bot.command("commands", (ctx) => {
+const contactDataWizard = new Scenes.WizardScene(
+    "CONTACT_DATA_WIZARD_SCENE_ID", // first argument is Scene_ID, same as for BaseScene
+    (ctx) => {
+        ctx.reply("What is your name?");
+        ctx.wizard.state.contactData = {};
+        return ctx.wizard.next();
+    },
+    (ctx) => {
+        // validation example
+        if (ctx.message.text.length < 2) {
+            ctx.reply("Please enter name for real");
+            return;
+        }
+        ctx.wizard.state.contactData.fio = ctx.message.text;
+        ctx.reply("Enter your e-mail");
+        return ctx.wizard.next();
+    },
+    async (ctx) => {
+        ctx.wizard.state.contactData.email = ctx.message.text;
+        ctx.reply("Thank you for your replies, we'll contact your soon\n" + JSON.stringify(ctx.wizard.state));
+        // await mySendContactDataMomentBeforeErase(ctx.wizard.state.contactData);
+        return ctx.scene.leave();
+    }
+);
+
+bot.command("hotkeys", (ctx) => {
     ctx.replyWithHTML(
-        "<b>CTRL + C</b> - копировать\n" +
+        "<b>F1</b> - помощь\n" +
+            "<b>CTRL + A</b> - выделить все\n" +
+            "<b>CTRL + X</b> - вырезать\n" +
+            "<b>CTRL + C</b> - копировать\n" +
             "<b>CTRL + V</b> - вставить\n" +
-            "<b>CTRL + Z</b> - отменить\n" +
+            "<b>CTRL + Z</b> - отменить последнее действие\n" +
+            "<b>CTRL + Y</b> - повторить последнее действие\n" +
+            "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
+            "<b>CTRL + P</b> - окно печати на принтер\n" +
+            "<b>ALT + TAB</b> - переключение между окнами\n" +
             "<b>ALT + F4</b> - закрыть окно\n" +
             "<b>F5</b> - обновить страницу в браузере"
     );
@@ -86,7 +118,8 @@ bot.hears(/\/wiki(.*)/, async (ctx) => {
 });
 
 bot.hears(/hello/i, (ctx) => {
-    return ctx.reply("Hello!");
+    ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
+    // return ctx.reply("Hello!");
 });
 
 bot.hears(/хочу есть/i, (ctx) => {
