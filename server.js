@@ -15,6 +15,7 @@ grammyBot.command("test", (ctx) => {
     const item = ctx.match;
     return ctx.reply(item || "nope");
 });
+grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 
 grammyBot.start();
 
@@ -185,5 +186,5 @@ grammyBot.start();
 //     },
 // });
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+// process.once("SIGINT", () => bot.stop("SIGINT"));
+// process.once("SIGTERM", () => bot.stop("SIGTERM"));
