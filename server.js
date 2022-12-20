@@ -1,5 +1,5 @@
 // import Fastify from "fastify";
-import { Telegraf, Scenes, Stage } from "telegraf";
+import { Telegraf, Scenes } from "telegraf";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -122,7 +122,7 @@ bot.hears(/\/wiki(.*)/, async (ctx) => {
 
 bot.hears(/hello/i, (ctx) => {
     // ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
-    Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
+    Scenes.stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
     // return ctx.reply("Hello!");
 });
 
