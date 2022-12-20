@@ -34,6 +34,9 @@ const contactDataWizard = new Scenes.WizardScene(
     }
 );
 
+const stage = new Scenes.Stage([contactDataWizard]);
+bot.use(stage.middleware());
+
 bot.command("hotkeys", (ctx) => {
     ctx.replyWithHTML(
         "<b>F1</b> - помощь\n" +
