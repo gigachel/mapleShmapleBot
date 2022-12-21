@@ -153,6 +153,16 @@ bot.on("message", (ctx) => {
 
 // bot.start(); // polling
 
+server.setErrorHandler(function (error, request, reply) {
+    console.log("[LOG] : error-------------", error);
+    // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
+    //     // Log error
+    //     this.log.error(error);
+    //     // Send error response
+    //     reply.status(500).send({ ok: false });
+    // }
+});
+
 // Run the server!
 (async () => {
     // server.register(productRoutes, { prefix: "/api/products" });
@@ -161,6 +171,7 @@ bot.on("message", (ctx) => {
         await server.listen({ port: port });
         console.log("Listening on port", port);
     } catch (err) {
+        console.log(err, "errrrrrrrrrrrrr");
         server.log.error(err);
         process.exit(1);
     }
