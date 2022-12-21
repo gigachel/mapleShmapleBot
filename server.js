@@ -14,7 +14,7 @@ const app = Fastify();
 const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 const grammyBot = new Bot(process.env.TOKEN);
 
-grammyBot.command("test", (ctx) => {
+grammyBot.command("ttt", (ctx) => {
     const item = ctx.match;
     return ctx.reply(item || "nope");
 });
@@ -23,7 +23,7 @@ grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
 // grammyBot.start();
 
 // app.register(webhookCallback(grammyBot, "fastify"));
-app.post(`/${process.env.TOKEN}`, webhookCallback(grammyBot, "fastify"));
+app.post(`/${process.env.TOKEN}/`, webhookCallback(grammyBot, "fastify"));
 // app.post(`/`, webhookCallback(grammyBot, "fastify"));
 app.get(`/111`, async (request, reply) => {
     return "world";
