@@ -11,24 +11,23 @@ const port = 3000;
 // // });
 const app = Fastify();
 
-const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
-const grammyBot = new Bot(process.env.TOKEN);
+// const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
+const bot = new Bot(process.env.TOKEN);
 
-grammyBot.command("ttt", (ctx) => {
+bot.command("ttt", (ctx) => {
     const item = ctx.match;
     return ctx.reply(item || "nope");
 });
-grammyBot.on("message", (ctx) => ctx.reply("Got another message!"));
+bot.on("message", (ctx) => ctx.reply("Got another message!"));
 
-// grammyBot.start();
+// bot.start();
 
-// app.register(webhookCallback(grammyBot, "fastify"));
-app.post(`/${process.env.TOKEN}/`, webhookCallback(grammyBot, "fastify"));
-// app.post(`/`, webhookCallback(grammyBot, "fastify"));
+// app.register(webhookCallback(bot, "fastify"));
+app.post(`/${process.env.TOKEN}/`, webhookCallback(bot, "fastify"));
+// app.post(`/`, webhookCallback(bot, "fastify"));
 app.get(`/111`, async (request, reply) => {
     return "world";
 });
-app.listen({ port: port }).then(() => console.log("Listening on port", port));
 
 // const bot = new Telegraf(process.env.TOKEN);
 // const contactDataWizard = new Scenes.WizardScene(
@@ -60,37 +59,40 @@ app.listen({ port: port }).then(() => console.log("Listening on port", port));
 // bot.use(session());
 // bot.use(stage.middleware());
 
-// bot.command("hotkeys", (ctx) => {
-//     ctx.replyWithHTML(
-//         "<b>F1</b> - помощь\n" +
-//             "<b>CTRL + A</b> - выделить все\n" +
-//             "<b>CTRL + X</b> - вырезать\n" +
-//             "<b>CTRL + C</b> - копировать\n" +
-//             "<b>CTRL + V</b> - вставить\n" +
-//             "<b>CTRL + Z</b> - отменить последнее действие\n" +
-//             "<b>CTRL + Y</b> - повторить последнее действие\n" +
-//             "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
-//             "<b>CTRL + P</b> - окно печати на принтер\n" +
-//             "<b>ALT + TAB</b> - переключение между окнами\n" +
-//             "<b>ALT + F4</b> - закрыть окно\n" +
-//             "<b>F5</b> - обновить страницу в браузере"
-//     );
-// });
+bot.command("hotkeys", (ctx) => {
+    ctx.reply(
+        "<b>F1</b> - помощь\n" +
+            "<b>CTRL + A</b> - выделить все\n" +
+            "<b>CTRL + X</b> - вырезать\n" +
+            "<b>CTRL + C</b> - копировать\n" +
+            "<b>CTRL + V</b> - вставить\n" +
+            "<b>CTRL + Z</b> - отменить последнее действие\n" +
+            "<b>CTRL + Y</b> - повторить последнее действие\n" +
+            "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
+            "<b>CTRL + P</b> - окно печати на принтер\n" +
+            "<b>ALT + TAB</b> - переключение между окнами\n" +
+            "<b>ALT + F4</b> - закрыть окно\n" +
+            "<b>F5</b> - обновить страницу в браузере",
+        {
+            parse_mode: "HTML",
+        }
+    );
+});
 
-// bot.command("cat", async (ctx) => {
-//     const cat = await (await fetch("https://aws.random.cat/meow")).json();
-//     ctx.replyWithPhoto(cat.file);
-// });
+bot.command("cat", async (ctx) => {
+    const cat = await (await fetch("https://aws.random.cat/meow")).json();
+    ctx.replyWithPhoto(cat.file);
+});
 
-// bot.command("dog", async (ctx) => {
-//     const dog = await (await fetch("https://random.dog/woof.json")).json();
-//     ctx.replyWithPhoto(dog.url);
-// });
+bot.command("dog", async (ctx) => {
+    const dog = await (await fetch("https://random.dog/woof.json")).json();
+    ctx.replyWithPhoto(dog.url);
+});
 
-// bot.command("fox", async (ctx) => {
-//     const fox = await (await fetch("https://randomfox.ca/floof/")).json();
-//     ctx.replyWithPhoto(fox.image);
-// });
+bot.command("fox", async (ctx) => {
+    const fox = await (await fetch("https://randomfox.ca/floof/")).json();
+    ctx.replyWithPhoto(fox.image);
+});
 
 // bot.hears(/\/wiki(.*)/, async (ctx) => {
 //     const search = ctx.match[1];
@@ -192,5 +194,9 @@ app.listen({ port: port }).then(() => console.log("Listening on port", port));
 //     },
 // });
 
-// process.once("SIGINT", () => bot.stop("SIGINT"));
-// process.once("SIGTERM", () => bot.stop("SIGTERM"));
+app.listen({ port: port })
+    .then(() => console.log("Listening on port", port))
+    .catch((error) => console.log(error, "errr"));
+
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
