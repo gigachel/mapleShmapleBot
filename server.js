@@ -5,23 +5,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const port = 3000;
-// // app.get("/", async (request, reply) => {
-// //     return "!!";
-// // });
-const server = Fastify();
-
-// const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
+const server = Fastify(); // { logger: true }
 const bot = new Bot(process.env.TOKEN);
-
-bot.command("ttt", (ctx) => {
-    const item = ctx.match;
-    return ctx.reply(item || "nope");
-});
-
 const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
-console.log("[LOG] : botPath", botPath);
-server.post(`/${botPath}/`, webhookCallback(bot, "fastify"));
-server.get(`/111`, async (request, reply) => {
+
+server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
+server.get("/111", async (request, reply) => {
     return "world";
 });
 
@@ -137,19 +126,33 @@ bot.command("wiki", async (ctx) => {
 //     // return ctx.replyWithDice();
 // });
 
-// // const webhook = await bot.createWebhook({ domain: webhookDomain });
-
 bot.on("message", (ctx) => {
     const user = ctx.update.message.from;
     return ctx.reply("Hello, " + user.first_name + "!");
 });
 
-// bot.start();
+// bot.start(); // polling
 
-server
-    .listen({ port: port })
-    .then(() => console.log("Listening on port", port))
-    .catch((error) => console.log(error, "errr"));
+// Run the server!
+(async () => {
+    // server.register(productRoutes, { prefix: "/api/products" });
 
-// process.once("SIGINT", () => bot.stop("SIGINT"));
-// process.once("SIGTERM", () => bot.stop("SIGTERM"));
+    try {
+        await server.listen({ port: port });
+        console.log("Listening on port", port);
+    } catch (err) {
+        server.log.error(err);
+        process.exit(1);
+    }
+})();
+
+// async function closeGracefully(signal) {
+//    console.log(`*^!@4=> Received signal to terminate: ${signal}`)
+
+//    await fastify.close()
+//    // await db.close() if we have a db connection in this app
+//    // await other things we should cleanup nicely
+//    process.kill(process.pid, signal);
+// }
+// process.once('SIGINT', closeGracefully)
+// process.once('SIGTERM', closeGracefully)
