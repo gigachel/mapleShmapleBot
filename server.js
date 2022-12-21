@@ -1,5 +1,4 @@
 import Fastify from "fastify";
-// import { Telegraf, Scenes, session } from "telegraf";
 import { Bot, webhookCallback } from "grammy";
 import dotenv from "dotenv";
 
@@ -9,7 +8,7 @@ const port = 3000;
 // // app.get("/", async (request, reply) => {
 // //     return "!!";
 // // });
-const app = Fastify();
+const server = Fastify();
 
 // const webhookDomain = "persian-blue-rabbit-belt.cyclic.app";
 const bot = new Bot(process.env.TOKEN);
@@ -19,44 +18,12 @@ bot.command("ttt", (ctx) => {
     return ctx.reply(item || "nope");
 });
 
-// bot.start();
-
-// app.register(webhookCallback(bot, "fastify"));
-app.post(`/${process.env.TOKEN}/`, webhookCallback(bot, "fastify"));
-// app.post(`/`, webhookCallback(bot, "fastify"));
-app.get(`/111`, async (request, reply) => {
+const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
+console.log("[LOG] : botPath", botPath);
+server.post(`/${botPath}/`, webhookCallback(bot, "fastify"));
+server.get(`/111`, async (request, reply) => {
     return "world";
 });
-
-// const bot = new Telegraf(process.env.TOKEN);
-// const contactDataWizard = new Scenes.WizardScene(
-//     "CONTACT_DATA_WIZARD_SCENE_ID", // first argument is Scene_ID, same as for BaseScene
-//     (ctx) => {
-//         ctx.reply("What is your name?");
-//         ctx.wizard.state.contactData = {};
-//         return ctx.wizard.next();
-//     },
-//     (ctx) => {
-//         // validation example
-//         if (ctx.message.text.length < 2) {
-//             ctx.reply("Please enter name for real");
-//             return;
-//         }
-//         ctx.wizard.state.contactData.fio = ctx.message.text;
-//         ctx.reply("Enter your e-mail");
-//         return ctx.wizard.next();
-//     },
-//     async (ctx) => {
-//         ctx.wizard.state.contactData.email = ctx.message.text;
-//         ctx.reply("Thank you for your replies, we'll contact your soon\n" + JSON.stringify(ctx.wizard.state));
-//         // await mySendContactDataMomentBeforeErase(ctx.wizard.state.contactData);
-//         return ctx.scene.leave();
-//     }
-// );
-
-// const stage = new Scenes.Stage([contactDataWizard]);
-// bot.use(session());
-// bot.use(stage.middleware());
 
 bot.command("hotkeys", (ctx) => {
     ctx.reply(
@@ -177,9 +144,12 @@ bot.on("message", (ctx) => {
     return ctx.reply("Hello, " + user.first_name + "!");
 });
 
-app.listen({ port: port })
+// bot.start();
+
+server
+    .listen({ port: port })
     .then(() => console.log("Listening on port", port))
     .catch((error) => console.log(error, "errr"));
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+// process.once("SIGINT", () => bot.stop("SIGINT"));
+// process.once("SIGTERM", () => bot.stop("SIGTERM"));
