@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const port = 3000;
-const server = Fastify(); // { logger: true }
+const server = Fastify({ logger: true }); // { logger: true }
 const bot = new Bot(process.env.TOKEN);
 const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 
@@ -94,6 +94,14 @@ bot.command("hotkeys", (ctx) => {
 });
 
 bot.command("cat", async (ctx) => {
+    // try {
+    //     const cat = await (await fetch("https://aws.random.cat/meow")).json();
+    //     ctx.replyWithPhoto(cat.file);
+    // } catch (error) {
+    //     console.log(error, "error");
+    //     throw new Error(error);
+    // }
+
     const cat = await (await fetch("https://aws.random.cat/meow")).json();
     ctx.replyWithPhoto(cat.file);
 });
