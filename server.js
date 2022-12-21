@@ -93,56 +93,56 @@ bot.command("fox", async (ctx) => {
     ctx.replyWithPhoto(fox.image);
 });
 
-// bot.hears(/\/wiki(.*)/, async (ctx) => {
-//     const search = ctx.match[1];
+bot.command("wiki", async (ctx) => {
+    const search = ctx.match;
 
-//     if (!search || !search.trim()) {
-//         return ctx.reply("После /wiki напиши слово, которое надо найти");
-//     }
+    if (!search || !search.trim()) {
+        return ctx.reply("После /wiki напиши слово, которое надо найти");
+    }
 
-//     // search = search.replace(" ", "_");
+    // search = search.replace(" ", "_");
 
-//     // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
-//     const articlesList = await (
-//         await fetch(
-//             "https://ru.wikipedia.org/w/api.php?" +
-//                 new URLSearchParams({
-//                     action: "opensearch",
-//                     limit: 5,
-//                     namespace: 0,
-//                     redirects: "resolve",
-//                     format: "json",
-//                     utf8: "",
-//                     search: search,
-//                 })
-//         )
-//     ).json();
+    // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
+    const articlesList = await (
+        await fetch(
+            "https://ru.wikipedia.org/w/api.php?" +
+                new URLSearchParams({
+                    action: "opensearch",
+                    limit: 5,
+                    namespace: 0,
+                    redirects: "resolve",
+                    format: "json",
+                    utf8: "",
+                    search: search,
+                })
+        )
+    ).json();
 
-//     const firstMatch = articlesList[1][0];
-//     // firstMatch = firstMatch.replace(" ", "_");
+    const firstMatch = articlesList[1][0];
+    // firstMatch = firstMatch.replace(" ", "_");
 
-//     const article = await (
-//         await fetch(
-//             "https://ru.wikipedia.org/w/api.php?" +
-//                 new URLSearchParams({
-//                     action: "query",
-//                     prop: "extracts",
-//                     exintro: "",
-//                     explaintext: "",
-//                     format: "json",
-//                     utf8: "",
-//                     titles: firstMatch,
-//                 })
-//         )
-//     ).json();
+    const article = await (
+        await fetch(
+            "https://ru.wikipedia.org/w/api.php?" +
+                new URLSearchParams({
+                    action: "query",
+                    prop: "extracts",
+                    exintro: "",
+                    explaintext: "",
+                    format: "json",
+                    utf8: "",
+                    titles: firstMatch,
+                })
+        )
+    ).json();
 
-//     const page = Object.values(article.query.pages)[0];
+    const page = Object.values(article.query.pages)[0];
 
-//     return ctx.reply(page.extract || "😵");
-//     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
-//     //     columns: parseInt(ctx.match[1]),
-//     // })
-// });
+    return ctx.reply(page.extract || "😵");
+    // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
+    //     columns: parseInt(ctx.match[1]),
+    // })
+});
 
 // bot.hears(/hello/i, (ctx) => {
 //     ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
@@ -172,7 +172,10 @@ bot.command("fox", async (ctx) => {
 
 // // const webhook = await bot.createWebhook({ domain: webhookDomain });
 
-bot.on("message", (ctx) => ctx.reply("Got another message!"));
+bot.on("message", (ctx) => {
+    const user = ctx.update.message.from;
+    return ctx.reply("Hello, " + user.first_name + "!");
+});
 
 app.listen({ port: port })
     .then(() => console.log("Listening on port", port))
