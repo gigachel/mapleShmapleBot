@@ -18,7 +18,6 @@ bot.command("ttt", (ctx) => {
     const item = ctx.match;
     return ctx.reply(item || "nope");
 });
-bot.on("message", (ctx) => ctx.reply("Got another message!"));
 
 // bot.start();
 
@@ -173,26 +172,7 @@ bot.command("fox", async (ctx) => {
 
 // // const webhook = await bot.createWebhook({ domain: webhookDomain });
 
-// // console.log("[LOG] : bot.secretPathComponent()", bot.secretPathComponent());
-// // app.post('/'+bot.secretPathComponent(), (req, rep) => webhook(req.raw, rep.raw));
-
-// bot.launch({
-//     webhook: {
-//         // Public domain for webhook; e.g.: example.com
-//         domain: webhookDomain,
-
-//         // Port to listen on; e.g.: 8080
-//         //   port: port,
-
-//         // Optional path to listen for.
-//         // `bot.secretPathComponent()` will be used by default
-//         //   hookPath: webhookPath,
-
-//         // Optional secret to be sent back in a header for security.
-//         // e.g.: `crypto.randomBytes(64).toString("hex")`
-//         //   secretToken: randomAlphaNumericString,
-//     },
-// });
+bot.on("message", (ctx) => ctx.reply("Got another message!"));
 
 app.listen({ port: port })
     .then(() => console.log("Listening on port", port))
