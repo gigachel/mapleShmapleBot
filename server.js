@@ -1,5 +1,6 @@
 import Fastify from "fastify";
-import { Bot, webhookCallback } from "grammy";
+import { Bot, webhookCallback, session } from "grammy";
+import { conversations, createConversation } from "@grammyjs/conversations";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,46 +15,13 @@ server.get("/111", async (request, reply) => {
     return "world";
 });
 
-bot.command("hotkeys", (ctx) => {
-    ctx.reply(
-        "<b>F1</b> - помощь\n" +
-            "<b>CTRL + A</b> - выделить все\n" +
-            "<b>CTRL + X</b> - вырезать\n" +
-            "<b>CTRL + C</b> - копировать\n" +
-            "<b>CTRL + V</b> - вставить\n" +
-            "<b>CTRL + Z</b> - отменить последнее действие\n" +
-            "<b>CTRL + Y</b> - повторить последнее действие\n" +
-            "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
-            "<b>CTRL + P</b> - окно печати на принтер\n" +
-            "<b>ALT + TAB</b> - переключение между окнами\n" +
-            "<b>ALT + F4</b> - закрыть окно\n" +
-            "<b>F5</b> - обновить страницу в браузере",
-        {
-            parse_mode: "HTML",
-        }
-    );
-});
-
-bot.command("cat", async (ctx) => {
-    const cat = await (await fetch("https://aws.random.cat/meow")).json();
-    ctx.replyWithPhoto(cat.file);
-});
-
-bot.command("dog", async (ctx) => {
-    const dog = await (await fetch("https://random.dog/woof.json")).json();
-    ctx.replyWithPhoto(dog.url);
-});
-
-bot.command("fox", async (ctx) => {
-    const fox = await (await fetch("https://randomfox.ca/floof/")).json();
-    ctx.replyWithPhoto(fox.image);
-});
-
-bot.command("wiki", async (ctx) => {
-    const search = ctx.match;
+async function wiki(conversation, ctx) {
+    let search = ctx.match;
 
     if (!search || !search.trim()) {
-        return ctx.reply("После /wiki напиши слово, которое надо найти");
+        await ctx.reply("Напиши слово, которое надо найти");
+        const { message } = await conversation.waitFor(":text");
+        search = message.text;
     }
 
     // search = search.replace(" ", "_");
@@ -95,9 +63,53 @@ bot.command("wiki", async (ctx) => {
     const page = Object.values(article.query.pages)[0];
 
     return ctx.reply(page.extract || "😵");
+
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
     //     columns: parseInt(ctx.match[1]),
     // })
+}
+
+bot.use(session({ initial: () => ({}) }));
+bot.use(conversations());
+bot.use(createConversation(wiki));
+
+bot.command("hotkeys", (ctx) => {
+    ctx.reply(
+        "<b>F1</b> - помощь\n" +
+            "<b>CTRL + A</b> - выделить все\n" +
+            "<b>CTRL + X</b> - вырезать\n" +
+            "<b>CTRL + C</b> - копировать\n" +
+            "<b>CTRL + V</b> - вставить\n" +
+            "<b>CTRL + Z</b> - отменить последнее действие\n" +
+            "<b>CTRL + Y</b> - повторить последнее действие\n" +
+            "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
+            "<b>CTRL + P</b> - окно печати на принтер\n" +
+            "<b>ALT + TAB</b> - переключение между окнами\n" +
+            "<b>ALT + F4</b> - закрыть окно\n" +
+            "<b>F5</b> - обновить страницу в браузере",
+        {
+            parse_mode: "HTML",
+        }
+    );
+});
+
+bot.command("cat", async (ctx) => {
+    const cat = await (await fetch("https://aws.random.cat/meow")).json();
+    ctx.replyWithPhoto(cat.file);
+});
+
+bot.command("dog", async (ctx) => {
+    const dog = await (await fetch("https://random.dog/woof.json")).json();
+    ctx.replyWithPhoto(dog.url);
+});
+
+bot.command("fox", async (ctx) => {
+    const fox = await (await fetch("https://randomfox.ca/floof/")).json();
+    ctx.replyWithPhoto(fox.image);
+});
+
+bot.command("wiki", async (ctx) => {
+    await ctx.conversation.enter("wiki");
 });
 
 // bot.hears(/hello/i, (ctx) => {
