@@ -6,15 +6,8 @@ import { wikiConvers } from "./commands/wiki.js";
 
 dotenv.config();
 
-const port = 3000;
-const server = Fastify(); // { logger: true }
 const bot = new Bot(process.env.TOKEN);
 const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
-
-server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
-server.get("/111", async (request, reply) => {
-    return "world";
-});
 
 bot.use(session({ initial: () => ({}) }));
 bot.use(conversations());
@@ -98,31 +91,66 @@ bot.on("message", (ctx) => {
     return ctx.reply("Hello, " + user.first_name + "!");
 });
 
-// bot.start(); // polling
-
-server.setErrorHandler(function (error, request, reply) {
-    console.log("[LOG] : error-------------", error);
-    // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
-    //     // Log error
-    //     this.log.error(error);
-    //     // Send error response
-    //     reply.status(500).send({ ok: false });
-    // }
-});
+bot.api.setMyCommands([
+    {
+        command: "fox",
+        description: "рандомная лиса",
+    },
+    {
+        command: "cat",
+        description: "рандомная кошка",
+    },
+    {
+        command: "dog",
+        description: "рандомная собака",
+    },
+    {
+        command: "wiki",
+        description: "+слово - поиск слова в википедии",
+    },
+    {
+        command: "hotkeys",
+        description: "список горячих клавиш",
+    },
+]);
 
 // Run the server!
-(async () => {
-    // server.register(productRoutes, { prefix: "/api/products" });
+if (process.env.NODE_ENV === "production") {
+    console.log("Run the server!");
+    const port = process.env.PORT || 3000;
+    const server = Fastify(); // { logger: true }
 
-    try {
-        await server.listen({ port: port });
-        console.log("Listening on port", port);
-    } catch (err) {
-        console.log(err, "errrrrrrrrrrrrr");
-        server.log.error(err);
-        process.exit(1);
-    }
-})();
+    server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
+    server.get("/111", async (request, reply) => {
+        return "world";
+    });
+
+    server.setErrorHandler(function (error, request, reply) {
+        console.log("[LOG] : error-------------", error);
+        // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
+        //     // Log error
+        //     this.log.error(error);
+        //     // Send error response
+        //     reply.status(500).send({ ok: false });
+        // }
+    });
+
+    (async () => {
+        // server.register(productRoutes, { prefix: "/api/products" });
+
+        try {
+            await server.listen({ port: port });
+            console.log("Listening on port", port);
+        } catch (err) {
+            console.log(err, "errrrrrrrrrrrrr");
+            server.log.error(err);
+            process.exit(1);
+        }
+    })();
+} else {
+    console.log("Use Long Polling!");
+    bot.start(); // Use Long Polling for development
+}
 
 async function closeGracefully(signal) {
     console.log(`*^!@4=> Received signal to terminate: ${signal}`);
