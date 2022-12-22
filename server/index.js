@@ -7,7 +7,7 @@ import { wikiConvers } from "./commands/wiki";
 dotenv.config();
 
 const port = 3000;
-const server = Fastify({ logger: true }); // { logger: true }
+const server = Fastify(); // { logger: true }
 const bot = new Bot(process.env.TOKEN);
 const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 
