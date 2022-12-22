@@ -41,16 +41,16 @@ bot.command("hotkeys", (ctx) => {
 });
 
 bot.command("cat", async (ctx) => {
-    // try {
-    //     const cat = await (await fetch("https://aws.random.cat/meow")).json();
-    //     ctx.replyWithPhoto(cat.file);
-    // } catch (error) {
-    //     console.log(error, "error");
-    //     throw new Error(error);
-    // }
+    try {
+        const cat = await (await fetch("https://aws.random.cat/meow")).json();
+        ctx.replyWithPhoto(cat.file);
+    } catch (error) {
+        console.log(error, "error");
+        throw new Error(error);
+    }
 
-    const cat = await (await fetch("https://aws.random.cat/meow")).json();
-    ctx.replyWithPhoto(cat.file);
+    // const cat = await (await fetch("https://aws.random.cat/meow")).json();
+    // ctx.replyWithPhoto(cat.file);
 });
 
 bot.command("dog", async (ctx) => {
