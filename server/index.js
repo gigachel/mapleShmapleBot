@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import Fastify from "fastify";
 import { Bot, webhookCallback, session } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
-import { wikiConvers } from "./commands/wiki";
+import { wikiConvers } from "./commands/wiki.js";
 
 dotenv.config();
 
