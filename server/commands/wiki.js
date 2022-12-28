@@ -45,7 +45,8 @@ export async function wikiConvers(conversation, ctx) {
 
     const page = Object.values(article.query.pages)[0];
 
-    return ctx.reply(page.extract || "😵");
+    // return ctx.reply(page.extract || "😵");
+    return ctx.reply(page.extract + JSON.stringify(articlesList, null, 2) || "😵");
 
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
     //     columns: parseInt(ctx.match[1]),

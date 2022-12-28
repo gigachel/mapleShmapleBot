@@ -139,7 +139,7 @@ if (process.env.NODE_ENV === "production") {
         // server.register(productRoutes, { prefix: "/api/products" });
 
         try {
-            await server.listen({ port: port });
+            await server.listen({ port });
             console.log("Listening on port", port);
         } catch (err) {
             console.log(err, "errrrrrrrrrrrrr");
