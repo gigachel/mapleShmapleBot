@@ -71,7 +71,7 @@ export async function searchWikiWithVariants(search) {
 
             // inlineKeyboard = inlineKeyboard.resized();
 
-            messageOptions.reply_markup = inlineKeyboard;
+            // messageOptions.reply_markup = inlineKeyboard;
 
             message += "\n\n" + "Похожие:";
         }
