@@ -86,17 +86,17 @@ bot.command("wiki", async (ctx) => {
 //     // return ctx.replyWithDice();
 // });
 
-bot.on("callback_query:data", async (ctx) => {
-    if (ctx.callbackQuery.data.startsWith("WIKI__")) {
-        const search = ctx.callbackQuery.data.replace("WIKI__", "");
+// bot.on("callback_query:data", async (ctx) => {
+//     if (ctx.callbackQuery.data.startsWith("WIKI__")) {
+//         const search = ctx.callbackQuery.data.replace("WIKI__", "");
 
-        const { message, messageOptions } = await searchWikiWithVariants(search);
+//         const { message, messageOptions } = await searchWikiWithVariants(search);
 
-        return ctx.reply(message, messageOptions);
-    }
+//         return ctx.reply(message, messageOptions);
+//     }
 
-    // await ctx.answerCallbackQuery(); // remove loading animation
-});
+//     // await ctx.answerCallbackQuery(); // remove loading animation
+// });
 
 bot.on("message", (ctx) => {
     const user = ctx.update.message.from;
