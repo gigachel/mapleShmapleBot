@@ -69,7 +69,7 @@ export async function searchWikiWithVariants(search) {
             let inlineKeyboard = new InlineKeyboard();
             articlesList[1].forEach((articleTitle, index) => {
                 inlineKeyboard = inlineKeyboard.text(articleTitle, "WIKI__" + articleTitle);
-                if (index < articlesList[1] - 1) {
+                if (index < articlesList[1].length - 1) {
                     inlineKeyboard = inlineKeyboard.row();
                 }
             });
