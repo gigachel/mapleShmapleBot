@@ -66,12 +66,13 @@ export async function searchWikiWithVariants(search) {
         if (articlesList[1].length) {
             let inlineKeyboard = new InlineKeyboard();
             articlesList[1].forEach((article) => {
-                inlineKeyboard = inlineKeyboard.text(article, "WIKI__" + article).row();
+                // inlineKeyboard = inlineKeyboard.text(article, "WIKI__" + article).row();
+                inlineKeyboard = inlineKeyboard.text(article, article).row();
             });
 
             // inlineKeyboard = inlineKeyboard.resized();
 
-            // messageOptions.reply_markup = inlineKeyboard;
+            messageOptions.reply_markup = inlineKeyboard;
 
             message += "\n\n" + "Похожие:";
         }
