@@ -14,6 +14,8 @@ export async function wikiConvers(conversation, ctx) {
     // search = search.replace(" ", "_");
 
     const { message, messageOptions } = await searchWikiWithVariants(search);
+    console.log("[LOG] : wikiConvers : messageOptions", messageOptions);
+    console.log("[LOG] : wikiConvers : message", message);
 
     return ctx.reply(message, messageOptions);
 }
