@@ -67,7 +67,7 @@ export async function searchWikiWithVariants(search) {
                 inlineKeyboard = inlineKeyboard.text(article, "WIKI__" + article).row();
             });
 
-            inlineKeyboard = inlineKeyboard.resized();
+            // inlineKeyboard = inlineKeyboard.resized();
 
             messageOptions.reply_markup = inlineKeyboard;
 
