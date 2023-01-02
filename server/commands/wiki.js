@@ -1,10 +1,9 @@
 import { InlineKeyboard } from "grammy";
 
+const searchLimit = 5;
+
 export async function wikiConvers(conversation, ctx) {
-    let message = "";
-    let messageOptions = {};
     let search = ctx.match;
-    const searchLimit = 5;
 
     if (!search || !search.trim()) {
         await ctx.reply("Напиши слово, которое надо найти");
@@ -13,6 +12,15 @@ export async function wikiConvers(conversation, ctx) {
     }
 
     // search = search.replace(" ", "_");
+
+    const { message, messageOptions } = await searchWikiWithVariants(search);
+
+    return ctx.reply(message, messageOptions);
+}
+
+export async function searchWikiWithVariants(search) {
+    let message = "";
+    let messageOptions = {};
 
     // "https://ru.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&srsearch=" +
     const articlesList = await (
@@ -56,16 +64,20 @@ export async function wikiConvers(conversation, ctx) {
         if (articlesList[1].length) {
             let inlineKeyboard = new InlineKeyboard();
             articlesList[1].forEach((article) => {
-                inlineKeyboard = inlineKeyboard.text(article, article + "111").row();
+                inlineKeyboard = inlineKeyboard.text(article, "WIKI__" + article).row();
             });
 
+            inlineKeyboard = inlineKeyboard.resized();
+
             messageOptions.reply_markup = inlineKeyboard;
+
+            message += "\n\n" + "Похожие:";
         }
     } else {
         message = "😵";
     }
 
-    return ctx.reply(message, messageOptions);
+    return { message, messageOptions };
     // return ctx.reply(page.extract + JSON.stringify(articlesList, null, 2) || "😵");
 
     // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import Fastify from "fastify";
 import { Bot, webhookCallback, session } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
-import { wikiConvers } from "./commands/wiki.js";
+import { wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
 
 dotenv.config();
 
@@ -85,6 +85,18 @@ bot.command("wiki", async (ctx) => {
 //     return ctx.reply("Hello, " + user.first_name + "!");
 //     // return ctx.replyWithDice();
 // });
+
+bot.on("callback_query:data", async (ctx) => {
+    if (ctx.callbackQuery.data.startsWith("WIKI__")) {
+        const search = ctx.callbackQuery.data.replace("WIKI__", "");
+
+        const { message, messageOptions } = await searchWikiWithVariants(search);
+
+        return ctx.reply(message, messageOptions);
+    }
+
+    // await ctx.answerCallbackQuery(); // remove loading animation
+});
 
 bot.on("message", (ctx) => {
     const user = ctx.update.message.from;
