@@ -41,6 +41,7 @@ export async function searchWikiWithVariants(search) {
     ).json();
 
     if (articlesList[1] && articlesList[1].length) {
+        console.log("[LOG] : searchWikiWithVariants : articlesList[1]", articlesList[1]);
         const firstMatch = articlesList[1].shift();
         // firstMatch = firstMatch.replace(" ", "_");
 
@@ -63,6 +64,7 @@ export async function searchWikiWithVariants(search) {
 
         message = page.extract || "😵";
 
+        console.log("[LOG] : searchWikiWithVariants : articlesList[1]", articlesList[1]);
         if (articlesList[1].length) {
             let inlineKeyboard = new InlineKeyboard();
             articlesList[1].forEach((articleTitle) => {
