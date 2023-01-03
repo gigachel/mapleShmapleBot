@@ -25,8 +25,6 @@ export async function citiesGameConvers(conversation, ctx) {
 }
 
 async function citiesGame(conversation, ctx) {
-    const { message } = await conversation.waitFor(":text");
-    const cityName = message.text;
     console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
 
     if (!ctx.session.wasCities.length) {
@@ -35,6 +33,8 @@ async function citiesGame(conversation, ctx) {
         await citiesGame(conversation, ctx);
         // await conversation.external(() => citiesGame(conversation, ctx));
     } else {
+        const { message } = await conversation.waitFor(":text");
+        const cityName = message.text;
         // if (cityName === "1") {
         //     await ctx.reply("ещё");
         //     // await citiesGame(conversation, ctx);
