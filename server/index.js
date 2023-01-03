@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import Fastify from "fastify";
 import { Bot, webhookCallback, session } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
-import { wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
+import { gamesConvers, wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
 
 dotenv.config();
 
@@ -12,6 +12,7 @@ const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 bot.use(session({ initial: () => ({}) }));
 bot.use(conversations());
 bot.use(createConversation(wikiConvers));
+bot.use(createConversation(gamesConvers));
 
 bot.command("hotkeys", (ctx) => {
     ctx.reply(
@@ -58,6 +59,10 @@ bot.command("fox", async (ctx) => {
 
 bot.command("wiki", async (ctx) => {
     await ctx.conversation.enter("wikiConvers");
+});
+
+bot.command("games", async (ctx) => {
+    await ctx.conversation.enter("gamesConvers");
 });
 
 // bot.hears(/hello/i, (ctx) => {
@@ -123,6 +128,10 @@ bot.api.setMyCommands([
     {
         command: "hotkeys",
         description: "список горячих клавиш",
+    },
+    {
+        command: "games",
+        description: "игры",
     },
 ]);
 
