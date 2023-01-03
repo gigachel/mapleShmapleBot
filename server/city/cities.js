@@ -35,13 +35,8 @@ async function citiesGame(conversation, ctx) {
     } else {
         const { message } = await conversation.waitFor(":text");
         const cityName = message.text;
-        // if (cityName === "1") {
-        //     await ctx.reply("ещё");
-        //     // await citiesGame(conversation, ctx);
-        //     await conversation.external(() => citiesGame(conversation, ctx));
-        // } else {
-        //     return;
-        // }
+        await replayRandomCity(conversation, ctx, cityName[0]);
+        await citiesGame(conversation, ctx);
     }
 }
 
