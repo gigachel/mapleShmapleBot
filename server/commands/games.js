@@ -9,7 +9,9 @@ export async function gamesConvers(conversation, ctx) {
     const gameName = message.text;
 
     if (gameName === "Города") {
-        return ctx.reply("222222222");
+        return ctx.reply("222222222", {
+            reply_markup: { remove_keyboard: true },
+        });
     }
 
     // return ctx.reply(message, messageOptions);
