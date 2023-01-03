@@ -23,6 +23,7 @@ export async function citiesGameConvers(conversation, ctx) {
 async function citiesGame(conversation, ctx) {
     const { message } = await conversation.waitFor(":text");
     const cityName = message.text;
+    console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
 
     if (!ctx.session.wasCities.length) {
         // await replayRandomCity(ctx);

@@ -110,6 +110,7 @@ bot.on("callback_query:data", async (ctx) => {
     } else if (ctx.callbackQuery.data.startsWith("GAMES__")) {
         const gameName = ctx.callbackQuery.data.replace("GAMES__", "");
 
+        console.log("[LOG] : bot.on : gameName", gameName);
         if (gameName === "cities") {
             await ctx.conversation.enter("citiesGameConvers");
         }
