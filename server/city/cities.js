@@ -11,8 +11,12 @@ export async function citiesGameConvers(conversation, ctx) {
     ctx.session.restCities = citiesDB;
     ctx.session.wasCities = [];
 
+    console.log("111111111111111111111111");
+
     await citiesGame(conversation, ctx);
     // await conversation.external(() => citiesGame(conversation, ctx));
+
+    console.log("222222222222222222222");
 
     ctx.session.restCities = [];
     ctx.session.wasCities = [];
