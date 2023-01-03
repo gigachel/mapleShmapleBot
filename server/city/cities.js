@@ -27,18 +27,20 @@ async function citiesGame(conversation, ctx) {
     if (!ctx.session.wasCities.length) {
         // await replayRandomCity(ctx);
         await conversation.external(() => replayRandomCity(conversation, ctx));
+        // await citiesGame(conversation, ctx);
+        await conversation.external(() => citiesGame(conversation, ctx));
     } else {
-        if (cityName === "1") {
-            await ctx.reply("ещё");
-            // await citiesGame(conversation, ctx);
-            await conversation.external(() => citiesGame(conversation, ctx));
-        } else {
-            return;
-        }
+        // if (cityName === "1") {
+        //     await ctx.reply("ещё");
+        //     // await citiesGame(conversation, ctx);
+        //     await conversation.external(() => citiesGame(conversation, ctx));
+        // } else {
+        //     return;
+        // }
     }
 }
 
-function replayRandomCity(conversation, ctx, firstLetter) {
+async function replayRandomCity(conversation, ctx, firstLetter) {
     let cityIndex;
     let cityName;
 
@@ -56,6 +58,8 @@ function replayRandomCity(conversation, ctx, firstLetter) {
     }
 
     ctx.session.wasCities.push(cityName);
+
+    return await ctx.reply(cityName);
 }
 
 function random(conversation, min, max) {
