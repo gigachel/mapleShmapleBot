@@ -49,6 +49,7 @@ async function replayRandomCity(conversation, ctx, firstLetter) {
         cityIndex = random(conversation, 0, letterCities.length);
 
         cityName = letterCities[cityIndex].name;
+        console.log("[LOG] : replayRandomCity : cityName", cityName);
         cityIndex = ctx.session.restCities.findIndex((city) => city.name === cityName);
         ctx.session.restCities.splice(cityIndex, 1);
     } else {
@@ -58,6 +59,7 @@ async function replayRandomCity(conversation, ctx, firstLetter) {
     }
 
     ctx.session.wasCities.push(cityName);
+    console.log("[LOG] : replayRandomCity : ctx.session.wasCities", ctx.session.wasCities);
 
     return await ctx.reply(cityName);
 }
