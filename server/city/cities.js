@@ -13,8 +13,8 @@ export async function citiesGameConvers(conversation, ctx) {
 
     console.log("111111111111111111111111");
 
-    await citiesGame(conversation, ctx);
-    // await conversation.external(() => citiesGame(conversation, ctx));
+    // await citiesGame(conversation, ctx);
+    await conversation.external(() => citiesGame(conversation, ctx));
 
     console.log("222222222222222222222");
 
@@ -30,7 +30,7 @@ async function citiesGame(conversation, ctx) {
     console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
 
     if (!ctx.session.wasCities.length) {
-        await replayRandomCity(ctx);
+        await replayRandomCity(conversation, ctx);
         // await conversation.external(() => replayRandomCity(conversation, ctx));
         await citiesGame(conversation, ctx);
         // await conversation.external(() => citiesGame(conversation, ctx));
