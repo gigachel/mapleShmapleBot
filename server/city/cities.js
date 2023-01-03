@@ -44,13 +44,13 @@ function replayRandomCity(conversation, ctx, firstLetter) {
 
     if (firstLetter) {
         const letterCities = ctx.session.restCities.filter((city) => city.name.startsWith(firstLetter));
-        cityIndex = random(0, letterCities.length);
+        cityIndex = random(conversation, 0, letterCities.length);
 
         cityName = letterCities[cityIndex].name;
         cityIndex = ctx.session.restCities.findIndex((city) => city.name === cityName);
         ctx.session.restCities.splice(cityIndex, 1);
     } else {
-        cityIndex = random(0, ctx.session.restCities.length);
+        cityIndex = random(conversation, 0, ctx.session.restCities.length);
         const cityArr = ctx.session.restCities.splice(cityIndex, 1);
         cityName = cityArr[0].name;
     }
