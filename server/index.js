@@ -62,9 +62,9 @@ bot.command("wiki", async (ctx) => {
     await ctx.conversation.enter("wikiConvers");
 });
 
-bot.command("games", async (ctx) => {
-    await ctx.conversation.enter("gamesConvers");
-});
+// bot.command("games", async (ctx) => {
+//     await ctx.conversation.enter("gamesConvers");
+// });
 
 // bot.hears(/hello/i, (ctx) => {
 //     ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
@@ -130,10 +130,10 @@ bot.api.setMyCommands([
         command: "hotkeys",
         description: "список горячих клавиш",
     },
-    {
-        command: "games",
-        description: "игры",
-    },
+    // {
+    //     command: "games",
+    //     description: "игры",
+    // },
 ]);
 
 // Run the server!
