@@ -11,8 +11,8 @@ export async function citiesGameConvers(conversation, ctx) {
     ctx.session.restCities = citiesDB;
     ctx.session.wasCities = [];
 
-    // await citiesGame(conversation, ctx);
-    await conversation.external(() => citiesGame(conversation, ctx));
+    await citiesGame(conversation, ctx);
+    // await conversation.external(() => citiesGame(conversation, ctx));
 
     ctx.session.restCities = [];
     ctx.session.wasCities = [];
@@ -26,10 +26,10 @@ async function citiesGame(conversation, ctx) {
     console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
 
     if (!ctx.session.wasCities.length) {
-        // await replayRandomCity(ctx);
-        await conversation.external(() => replayRandomCity(conversation, ctx));
-        // await citiesGame(conversation, ctx);
-        await conversation.external(() => citiesGame(conversation, ctx));
+        await replayRandomCity(ctx);
+        // await conversation.external(() => replayRandomCity(conversation, ctx));
+        await citiesGame(conversation, ctx);
+        // await conversation.external(() => citiesGame(conversation, ctx));
     } else {
         // if (cityName === "1") {
         //     await ctx.reply("ещё");
