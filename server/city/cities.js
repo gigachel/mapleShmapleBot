@@ -28,15 +28,18 @@ async function citiesGame(conversation, ctx) {
     console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
 
     if (!ctx.session.wasCities.length) {
-        await replayRandomCity(conversation, ctx);
-        // await conversation.external(() => replayRandomCity(conversation, ctx));
-        await citiesGame(conversation, ctx);
-        // await conversation.external(() => citiesGame(conversation, ctx));
+        // await replayRandomCity(conversation, ctx);
+        await conversation.external(() => replayRandomCity(conversation, ctx));
+        // await citiesGame(conversation, ctx);
+        await conversation.external(() => citiesGame(conversation, ctx));
     } else {
         const { message } = await conversation.waitFor(":text");
         const cityName = message.text;
-        await replayRandomCity(conversation, ctx, cityName[0]);
-        await citiesGame(conversation, ctx);
+        console.log("[LOG] : citiesGame : cityName", cityName);
+        // await replayRandomCity(conversation, ctx, cityName[0]);
+        await conversation.external(() => replayRandomCity(conversation, ctx, cityName[0]));
+        // await citiesGame(conversation, ctx);
+        await conversation.external(() => citiesGame(conversation, ctx));
     }
 }
 
