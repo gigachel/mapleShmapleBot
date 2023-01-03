@@ -1,7 +1,7 @@
 import { Keyboard } from "grammy";
 
 export async function gamesConvers(conversation, ctx) {
-    const keyboard = new Keyboard().text("Города").persistent().resized();
+    const keyboard = new Keyboard().text("Города").oneTime().persistent().resized();
     await ctx.reply("Выбери игру", {
         reply_markup: keyboard,
     });
