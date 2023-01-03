@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 import Fastify from "fastify";
-import { Bot, webhookCallback, session } from "grammy";
+import { Bot, webhookCallback, session, InlineKeyboard } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
-import { gamesConvers } from "./commands/games.js";
+import { citiesGameConvers } from "./commands/cities.js";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 bot.use(session({ initial: () => ({}) }));
 bot.use(conversations());
 bot.use(createConversation(wikiConvers));
-bot.use(createConversation(gamesConvers));
+bot.use(createConversation(citiesGameConvers));
 
 bot.command("hotkeys", (ctx) => {
     ctx.reply(
@@ -66,6 +66,14 @@ bot.command("wiki", async (ctx) => {
 //     await ctx.conversation.enter("gamesConvers");
 // });
 
+bot.command("games", async (ctx) => {
+    let inlineKeyboard = new InlineKeyboard().text("Города", "GAMES__cities");
+
+    return ctx.reply("Выбери игру", {
+        reply_markup: inlineKeyboard,
+    });
+});
+
 // bot.hears(/hello/i, (ctx) => {
 //     ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
 //     // Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
@@ -99,6 +107,12 @@ bot.on("callback_query:data", async (ctx) => {
         const { message, messageOptions } = await searchWikiWithVariants(search);
 
         return ctx.reply(message, messageOptions);
+    } else if (ctx.callbackQuery.data.startsWith("GAMES__")) {
+        const gameName = ctx.callbackQuery.data.replace("GAMES__", "");
+
+        if (gameName === "cities") {
+            await ctx.conversation.enter("citiesGameConvers");
+        }
     }
 
     // await ctx.answerCallbackQuery(); // remove loading animation
