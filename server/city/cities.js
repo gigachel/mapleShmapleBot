@@ -11,7 +11,8 @@ export async function citiesGameConvers(conversation, ctx) {
     ctx.session.restCities = citiesDB;
     ctx.session.wasCities = [];
 
-    await citiesGame(conversation, ctx);
+    // await citiesGame(conversation, ctx);
+    await conversation.external(() => citiesGame(conversation, ctx));
 
     ctx.session.restCities = [];
     ctx.session.wasCities = [];
@@ -23,10 +24,49 @@ async function citiesGame(conversation, ctx) {
     const { message } = await conversation.waitFor(":text");
     const cityName = message.text;
 
-    if (cityName === "1") {
-        await ctx.reply("ещё");
-        await citiesGame(conversation, ctx);
+    if (!ctx.session.wasCities.length) {
+        // await replayRandomCity(ctx);
+        await conversation.external(() => replayRandomCity(conversation, ctx));
     } else {
-        return;
+        if (cityName === "1") {
+            await ctx.reply("ещё");
+            // await citiesGame(conversation, ctx);
+            await conversation.external(() => citiesGame(conversation, ctx));
+        } else {
+            return;
+        }
     }
+}
+
+function replayRandomCity(conversation, ctx, firstLetter) {
+    let cityIndex;
+    let cityName;
+
+    if (firstLetter) {
+        const letterCities = ctx.session.restCities.filter((city) => city.name.startsWith(firstLetter));
+        cityIndex = random(0, letterCities.length);
+
+        cityName = letterCities[cityIndex].name;
+        cityIndex = ctx.session.restCities.findIndex((city) => city.name === cityName);
+        ctx.session.restCities.splice(cityIndex, 1);
+    } else {
+        cityIndex = random(0, ctx.session.restCities.length);
+        const cityArr = ctx.session.restCities.splice(cityIndex, 1);
+        cityName = cityArr[0].name;
+    }
+
+    ctx.session.wasCities.push(cityName);
+}
+
+function random(conversation, min, max) {
+    if (min === undefined && max === undefined) {
+        return conversation.random();
+    } else if (max === undefined) {
+        max = min;
+        min = 0;
+    }
+
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(conversation.random() * (max - min + 1)) + min; // Максимум и минимум включаются
 }
