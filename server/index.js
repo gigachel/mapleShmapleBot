@@ -3,7 +3,7 @@ import Fastify from "fastify";
 import { Bot, webhookCallback, session, InlineKeyboard } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
-import { citiesGameConvers } from "./commands/cities.js";
+import { citiesGameConvers } from "./city/cities.js";
 
 dotenv.config();
 
