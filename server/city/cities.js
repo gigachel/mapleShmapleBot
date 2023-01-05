@@ -23,6 +23,8 @@ export async function citiesGameConvers(conversation, ctx) {
         await ctx.reply("Send me a photo!");
         ctx = await conversation.wait();
         console.log("[LOG] : citiesGameConvers : ctx.message?.text", ctx.message?.text);
+        console.log(ctx.session.restCities.length, "ctx.session.restCities.length");
+        await ctx.reply(ctx.message?.text);
 
         if (ctx.message?.text === "/cancel") {
             await ctx.reply("Cancelled, leaving!");
