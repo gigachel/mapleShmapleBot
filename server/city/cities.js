@@ -1,144 +1,151 @@
-import citiesDB from "./cities_db.js";
+import { Keyboard } from "grammy";
+import { getWikiExtract } from "../commands/wiki.js";
 
 export async function citiesGameConvers(conversation, ctx) {
-    // const keyboard = new InlineKeyboard().text("Города", "GAMES__cities");
-    // await ctx.reply("Выбери игру", {
-    //     reply_markup: keyboard,
-    // });
+    conversation.log("enter city game conversation");
 
-    // await ctx.reply("Выбери игру");
+    await recur(conversation, ctx);
 
-    ctx.session.restCities = citiesDB;
-    ctx.session.wasCities = [];
-
-    console.log("111111111111111111111111");
-    console.log(ctx.message?.text, "text");
-
-    // const { message } = await conversation.waitFor(":text");
-
-    // await citiesGame(conversation, ctx);
-    // await conversation.external(() => citiesGame(conversation, ctx));
-
-    do {
-        await ctx.reply("Send me a photo!");
-        ctx = await conversation.wait();
-        console.log("[LOG] : citiesGameConvers : ctx.message?.text", ctx.message?.text);
-        console.log(ctx.session.restCities.length, "ctx.session.restCities.length");
-        await ctx.reply(ctx.message?.text);
-
-        if (ctx.message?.text === "/cancel") {
-            await ctx.reply("Cancelled, leaving!");
-            return;
-        }
-    } while (!ctx.message?.photo);
-
-    // do {
-    //     // await ctx.reply("Send me a photo!");
-    //     const ctx = await conversation.waitFor(":text");
-    //     const cityName = ctx.message?.text;
-    //     console.log("[LOG] : citiesGameConvers : cityName", cityName);
-
-    //     if (!cityName) {
-    //         await conversation.external(() => replayRandomCity(conversation, ctx));
-    //     } else {
-    //         // console.log("[LOG] : citiesGame : cityName", cityName);
-    //         // await replayRandomCity(conversation, ctx, cityName[0]);
-    //         // await conversation.external(() => replayRandomCity(conversation, ctx, cityName[0]));
-    //         await ctx.reply("Cancelled, leaving!");
-    //     }
-
-    //     // if (!ctx.session.wasCities.length) {
-    //     //     // await replayRandomCity(conversation, ctx);
-    //     //     await conversation.external(() => replayRandomCity(conversation, ctx));
-    //     //     // await citiesGame(conversation, ctx);
-    //     //     // await conversation.external(() => citiesGame(conversation, ctx));
-    //     //     // await conversation.waitFor(":text");
-    //     // } else {
-    //     //     // const { message } = await conversation.waitFor(":text");
-    //     //     ctx = await conversation.waitFor(":text");
-    //     //     const cityName = ctx.message.text;
-    //     //     console.log("[LOG] : citiesGame : cityName", cityName);
-    //     //     // await replayRandomCity(conversation, ctx, cityName[0]);
-    //     //     await conversation.external(() => replayRandomCity(conversation, ctx, cityName[0]));
-    //     //     // await citiesGame(conversation, ctx);
-    //     //     // await conversation.external(() => citiesGame(conversation, ctx));
-    //     // }
-
-    //     if (ctx.message?.text === "/cancel") {
-    //         await ctx.reply("Cancelled, leaving!");
-    //         return;
-    //     }
-    // } while (1);
-
-    // ctx = await conversation.wait();
-
-    // if (!ctx.message?.photo) {
-    //     ctx = await conversation.wait();
-    // }
-
-    console.log("222222222222222222222");
-
-    ctx.session.restCities = [];
-    ctx.session.wasCities = [];
-
-    // return ctx.reply(message, messageOptions);
+    console.log("leave city game conversation");
 }
 
-async function citiesGame(conversation, ctx) {
-    console.log("[LOG] : citiesGame : ctx.session.wasCities.length", ctx.session.wasCities.length);
+async function recur(conversation, ctx) {
+    if (!ctx.session.wasCities.length) {
+        await ctx.reply(
+            "Правила:\nназываем город в России, название которого начинается на ту букву, которой оканчивается название предыдущего города"
+        );
+        await replyBotCityName(conversation, ctx);
+    }
 
-    do {
-        if (!ctx.session.wasCities.length) {
-            // await replayRandomCity(conversation, ctx);
-            await conversation.external(() => replayRandomCity(conversation, ctx));
-            // await citiesGame(conversation, ctx);
-            // await conversation.external(() => citiesGame(conversation, ctx));
-            // await conversation.waitFor(":text");
-        } else {
-            // const { message } = await conversation.waitFor(":text");
-            ctx = await conversation.waitFor(":text");
-            const cityName = ctx.message.text;
-            console.log("[LOG] : citiesGame : cityName", cityName);
-            // await replayRandomCity(conversation, ctx, cityName[0]);
-            await conversation.external(() => replayRandomCity(conversation, ctx, cityName[0]));
-            // await citiesGame(conversation, ctx);
-            // await conversation.external(() => citiesGame(conversation, ctx));
+    const { message } = await conversation.waitFor(":text");
+    const cityName = (message?.text || "").toLowerCase();
+
+    ///cancel
+    if (message?.text === "Выйти из игры") {
+        await ctx.reply("Выход", {
+            reply_markup: { remove_keyboard: true },
+        });
+        return;
+    }
+
+    // await conversation.external(() => replyRandomCity(conversation, ctx));
+    // HACK: conversation.external not work
+    if (!conversation._isReplaying) {
+        if (await checkCityName(conversation, ctx, cityName)) {
+            ctx.session.wasCities.push(cityName);
+            const lastLetter = getLastLetter(cityName);
+
+            const botResult = await replyBotCityName(conversation, ctx, lastLetter);
+
+            if (!botResult) {
+                await ctx.reply('Ура!!! Твоя победа! Я больше не знаю городов на "<b>' + lastLetter.toUpperCase() + '</b>"', {
+                    remove_keyboard: true,
+                });
+                return;
+            }
         }
-    } while (!ctx.message?.photo);
+    }
 
-    console.log("END!!!!!!!!!!!!");
+    return await recur(conversation, ctx);
 }
 
-async function replayRandomCity(conversation, ctx, firstLetter) {
+async function checkCityName(conversation, ctx, cityName) {
+    const findInWasCities = ctx.session.wasCities.find((city) => city === cityName);
+
+    if (findInWasCities) {
+        await ctx.reply("Такой город уже был! Вспоминай еще");
+        return false;
+    }
+
+    if (ctx.session.botLastLetter !== cityName[0]) {
+        await ctx.reply('Город не на ту букву! Тебе на "' + ctx.session.botLastLetter.toUpperCase() + '"');
+        return false;
+    }
+
+    const findInRestCities = ctx.session.restCities.find((city) => city.name.toLowerCase() === cityName);
+
+    if (!findInRestCities) {
+        await ctx.reply("Такого города в России нет! Напряги мозги");
+        return false;
+    }
+
+    return true;
+}
+
+function getLastLetter(cityName) {
+    let index = 1;
+    let lastLetter = cityName[cityName.length - 1];
+
+    while (["ь", "й", " ", "-", "ы"].includes(lastLetter)) {
+        lastLetter = cityName[cityName.length - index];
+        index++;
+    }
+
+    if (lastLetter === "ё") {
+        lastLetter = "е";
+    }
+
+    return lastLetter;
+}
+
+async function replyBotCityName(conversation, ctx, lastLetter) {
+    let message;
+    const botCity = await getRandomCity(conversation, ctx, lastLetter);
+
+    const keyboard = new Keyboard().text("Выйти из игры").resized().oneTime();
+
+    if (botCity) {
+        message = "<b>" + botCity.name + "</b>";
+        ctx.session.wasCities.push(botCity.name.toLowerCase());
+        const botLastLetter = getLastLetter(botCity.name);
+        ctx.session.botLastLetter = botLastLetter;
+
+        const wikiExtract = await getWikiExtract(botCity.title);
+
+        if (wikiExtract) {
+            message += "\n\n" + wikiExtract;
+        }
+
+        message += '\n\nТебе на "<b>' + botLastLetter.toUpperCase() + '</b>"';
+
+        await ctx.reply(message, { parse_mode: "HTML", reply_markup: keyboard });
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function getRandomCity(conversation, ctx, firstLetter) {
     let cityIndex;
-    let cityName;
+    let city;
 
     if (firstLetter) {
         firstLetter = firstLetter.toUpperCase();
         const letterCities = ctx.session.restCities.filter((city) => city.name.startsWith(firstLetter));
-        cityIndex = random(conversation, 0, letterCities.length);
-        console.log("[LOG] : replayRandomCity : cityIndex", cityIndex);
+        cityIndex = await random(conversation, 0, letterCities.length);
+        // cityIndex = await conversation.external(() => random(conversation, 0, letterCities.length));
 
-        cityName = letterCities[cityIndex].name;
-        console.log("[LOG] : replayRandomCity : cityName", cityName);
-        cityIndex = ctx.session.restCities.findIndex((city) => city.name === cityName);
+        city = letterCities[cityIndex];
+        cityIndex = ctx.session.restCities.findIndex((ct) => ct.name === city.name);
         ctx.session.restCities.splice(cityIndex, 1);
     } else {
-        cityIndex = random(conversation, 0, ctx.session.restCities.length);
+        cityIndex = await random(conversation, 0, ctx.session.restCities.length);
+        // cityIndex = await conversation.external(() => random(conversation, 0, ctx.session.restCities.length));
         const cityArr = ctx.session.restCities.splice(cityIndex, 1);
-        cityName = cityArr[0].name;
+        // const cityArr = await conversation.external(() => ctx.session.restCities.splice(cityIndex, 1));
+        city = cityArr[0];
     }
 
-    ctx.session.wasCities.push(cityName);
-    console.log("[LOG] : replayRandomCity : ctx.session.wasCities", ctx.session.wasCities);
-
-    return await ctx.reply(cityName);
+    return city;
 }
 
-function random(conversation, min, max) {
+async function random(conversation, min, max) {
+    const random = await conversation.random();
+    // const random = Math.random();
+
     if (min === undefined && max === undefined) {
-        // return conversation.random();
-        return Math.random();
+        return random;
     } else if (max === undefined) {
         max = min;
         min = 0;
@@ -146,6 +153,5 @@ function random(conversation, min, max) {
 
     min = Math.ceil(min);
     max = Math.floor(max);
-    // return Math.floor(conversation.random() * (max - min + 1)) + min; // Максимум и минимум включаются
-    return Math.floor(Math.random() * (max - min + 1)) + min; // Максимум и минимум включаются
+    return Math.floor(random * (max - min + 1)) + min; // Максимум и минимум включаются
 }

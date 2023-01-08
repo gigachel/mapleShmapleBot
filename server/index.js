@@ -2,15 +2,33 @@ import dotenv from "dotenv";
 import Fastify from "fastify";
 import { Bot, webhookCallback, session, InlineKeyboard } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
-import { wikiConvers, searchWikiWithVariants } from "./commands/wiki.js";
+import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.js";
 import { citiesGameConvers } from "./city/cities.js";
+import citiesDB from "./city/cities_db.js";
 
 dotenv.config();
 
 const bot = new Bot(process.env.TOKEN);
-const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 
 bot.use(session({ initial: () => ({}) }));
+// bot.use(
+//     session({
+//         initial: () => {
+//             return { wiki: {} };
+//         },
+//         getSessionKey: (ctx) => ctx.from?.id.toString(),
+//         // storage: new MemorySessionStorage(),
+//         storage: new FileAdapter({
+//             dirName: "sessions",
+//         }),
+//         // type: "multi",
+//         // custom: {
+//         //     initial: () => ({ foo: "" }),
+//         // },
+//         // conversation: {}, // may be left empty
+//     })
+// );
+bot.use(wikiMenu);
 bot.use(conversations());
 bot.use(createConversation(wikiConvers));
 bot.use(createConversation(citiesGameConvers));
@@ -59,6 +77,7 @@ bot.command("fox", async (ctx) => {
 });
 
 bot.command("wiki", async (ctx) => {
+    // ctx.session.wiki["22"] = "22";
     await ctx.conversation.enter("wikiConvers");
 });
 
@@ -72,6 +91,10 @@ bot.command("games", async (ctx) => {
     return ctx.reply("Выбери игру", {
         reply_markup: inlineKeyboard,
     });
+
+    // ctx.session.restCities = citiesDB;
+    // ctx.session.wasCities = [];
+    // return await ctx.conversation.enter("citiesGameConvers");
 });
 
 // bot.hears(/hello/i, (ctx) => {
@@ -102,17 +125,23 @@ bot.command("games", async (ctx) => {
 
 bot.on("callback_query:data", async (ctx) => {
     if (ctx.callbackQuery.data.startsWith("WIKI__")) {
-        const search = ctx.callbackQuery.data.replace("WIKI__", "");
+        const searchIndex = ctx.callbackQuery.data.replace("WIKI__", "");
+        const search = ctx.session.wiki[searchIndex];
 
-        const { message, messageOptions } = await searchWikiWithVariants(search);
+        const { message, messageOptions } = await searchWikiWithVariants(ctx, search);
 
         return ctx.reply(message, messageOptions);
     } else if (ctx.callbackQuery.data.startsWith("GAMES__")) {
         const gameName = ctx.callbackQuery.data.replace("GAMES__", "");
 
-        console.log("[LOG] : bot.on : gameName", gameName);
         if (gameName === "cities") {
+            ctx.session.restCities = citiesDB;
+            ctx.session.wasCities = [];
+
             await ctx.conversation.enter("citiesGameConvers");
+
+            ctx.session.restCities = null;
+            ctx.session.wasCities = null;
         }
     }
 
@@ -123,6 +152,10 @@ bot.on("message", (ctx) => {
     const user = ctx.update.message.from;
     return ctx.reply("Hello, " + user.first_name + "!");
 });
+
+bot.errorBoundary((err) => console.error("!!!!!!!!!!!!!!!!!11", err));
+
+bot.catch((err) => console.error("errrrrrr@@@@@@@@@@@@@@@@@@@@@", err));
 
 bot.api.setMyCommands([
     {
@@ -142,6 +175,10 @@ bot.api.setMyCommands([
         description: "+слово - поиск слова в википедии",
     },
     {
+        command: "games",
+        description: "мини-игры",
+    },
+    {
         command: "hotkeys",
         description: "список горячих клавиш",
     },
@@ -154,8 +191,12 @@ bot.api.setMyCommands([
 // Run the server!
 if (process.env.NODE_ENV === "production") {
     console.log("Run the server!");
+    const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
+    const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
     const port = process.env.PORT || 3000;
     const server = Fastify(); // { logger: true }
+
+    fetch(`https://api.telegram.org/${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
 
     server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
     server.get("/111", async (request, reply) => {

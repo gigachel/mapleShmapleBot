@@ -1,6 +1,25 @@
 import { InlineKeyboard } from "grammy";
+import { Menu, MenuRange } from "@grammyjs/menu";
 
 const searchLimit = 5;
+export const wikiMenuSession = {}; // TODO: inline keyboard with hash for each button (life time)
+
+// let range = new MenuRange();
+// let range = () => {};
+export const wikiMenu = new Menu("dynamic");
+wikiMenu.dynamic(createDishMenu);
+
+function createDishMenu(ctx, range) {
+    for (let articleTitle of wikiMenuSession[ctx.from?.id.toString()].items) {
+        range
+            .text(articleTitle, async (ctx) => {
+                const { message, messageOptions } = await searchWikiWithVariants(ctx, articleTitle);
+
+                return await ctx.reply(message, messageOptions);
+            })
+            .row();
+    }
+}
 
 export async function wikiConvers(conversation, ctx) {
     let search = ctx.match;
@@ -13,12 +32,12 @@ export async function wikiConvers(conversation, ctx) {
 
     // search = search.replace(" ", "_");
 
-    const { message, messageOptions } = await searchWikiWithVariants(search);
+    const { message, messageOptions } = await searchWikiWithVariants(ctx, search);
 
-    return ctx.reply(message, messageOptions);
+    return await ctx.reply(message, messageOptions);
 }
 
-export async function searchWikiWithVariants(search) {
+export async function searchWikiWithVariants(ctx, search) {
     let message = "";
     let messageOptions = {};
 
@@ -42,37 +61,17 @@ export async function searchWikiWithVariants(search) {
         const firstMatch = articlesList[1].shift();
         // firstMatch = firstMatch.replace(" ", "_");
 
-        const article = await (
-            await fetch(
-                "https://ru.wikipedia.org/w/api.php?" +
-                    new URLSearchParams({
-                        action: "query",
-                        prop: "extracts",
-                        exintro: "",
-                        explaintext: "",
-                        format: "json",
-                        utf8: "",
-                        titles: firstMatch,
-                    })
-            )
-        ).json();
-
-        const page = Object.values(article.query.pages)[0];
-
-        message = page.extract || "😵";
+        message = (await getWikiExtract(firstMatch)) || "😵";
 
         if (articlesList[1].length) {
-            let inlineKeyboard = new InlineKeyboard();
-            articlesList[1].forEach((articleTitle, index) => {
-                inlineKeyboard = inlineKeyboard.text(articleTitle, "WIKI__" + articleTitle);
-                if (index < articlesList[1].length - 1) {
-                    inlineKeyboard = inlineKeyboard.row();
-                }
-            });
+            // let inlineKeyboard = new InlineKeyboard();
 
-            // inlineKeyboard = inlineKeyboard.resized();
+            if (!wikiMenuSession[ctx.from?.id.toString()]) {
+                wikiMenuSession[ctx.from?.id.toString()] = {};
+            }
+            wikiMenuSession[ctx.from?.id.toString()].items = articlesList[1];
 
-            messageOptions.reply_markup = inlineKeyboard;
+            messageOptions.reply_markup = wikiMenu;
 
             message += "\n\n" + "Похожие:";
         }
@@ -82,8 +81,25 @@ export async function searchWikiWithVariants(search) {
 
     return { message, messageOptions };
     // return ctx.reply(page.extract + JSON.stringify(articlesList, null, 2) || "😵");
+}
 
-    // Markup.keyboard(["one", "two", "three", "four", "five", "six"], {
-    //     columns: parseInt(ctx.match[1]),
-    // })
+export async function getWikiExtract(title) {
+    const article = await (
+        await fetch(
+            "https://ru.wikipedia.org/w/api.php?" +
+                new URLSearchParams({
+                    action: "query",
+                    prop: "extracts",
+                    exintro: "",
+                    explaintext: "",
+                    format: "json",
+                    utf8: "",
+                    titles: title,
+                })
+        )
+    ).json();
+
+    const page = Object.values(article.query.pages)[0];
+
+    return page.extract;
 }

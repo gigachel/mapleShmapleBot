@@ -21,6 +21,7 @@
     "homepage": "https://github.com/gigachel/mapleShmapleBot#readme",
     "dependencies": {
         "@grammyjs/conversations": "^1.1.0",
+        "@grammyjs/menu": "^1.1.2",
         "dotenv": "^16.0.3",
         "fastify": "^4.10.2",
         "grammy": "^1.13.0",
