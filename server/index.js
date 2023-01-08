@@ -182,10 +182,6 @@ bot.api.setMyCommands([
         command: "hotkeys",
         description: "список горячих клавиш",
     },
-    // {
-    //     command: "games",
-    //     description: "игры",
-    // },
 ]);
 
 // Run the server!
