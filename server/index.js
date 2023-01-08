@@ -192,7 +192,7 @@ if (process.env.NODE_ENV === "production") {
     const port = process.env.PORT || 3000;
     const server = Fastify(); // { logger: true }
 
-    fetch(`https://api.telegram.org/${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
+    fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
 
     server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
     server.get("/111", async (request, reply) => {
