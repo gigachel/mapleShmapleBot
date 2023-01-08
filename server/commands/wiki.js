@@ -90,6 +90,7 @@ export async function getWikiExtract(title) {
                 new URLSearchParams({
                     action: "query",
                     prop: "extracts",
+                    redirects: true,
                     exintro: "",
                     explaintext: "",
                     format: "json",
