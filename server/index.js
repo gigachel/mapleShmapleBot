@@ -55,11 +55,12 @@ bot.command("hotkeys", (ctx) => {
 
 bot.command("cat", async (ctx) => {
     try {
-        const cat = await (await fetch("https://aws.random.cat/meow")).json();
-        ctx.replyWithPhoto(cat.file);
+        // const cat = await (await fetch("https://aws.random.cat/meow")).json();
+        const cat = await (await fetch("https://api.thecatapi.com/v1/images/search")).json();
+        ctx.replyWithPhoto(cat.url);
     } catch (error) {
         console.log(error, "error");
-        throw new Error(error);
+        // throw new Error(error);
     }
 
     // const cat = await (await fetch("https://aws.random.cat/meow")).json();

@@ -4,7 +4,7 @@ import { getWikiExtract } from "../commands/wiki.js";
 export async function citiesGameConvers(conversation, ctx) {
     conversation.log("enter city game conversation");
 
-    await recur(conversation, ctx);
+    await recur(conversation, ctx); // может тут conversation.external ?
 
     console.log("leave city game conversation");
 }
