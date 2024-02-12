@@ -57,7 +57,7 @@ bot.command("cat", async (ctx) => {
     try {
         // const cat = await (await fetch("https://aws.random.cat/meow")).json();
         const cat = await (await fetch("https://api.thecatapi.com/v1/images/search")).json();
-        ctx.replyWithPhoto(cat.url);
+        ctx.replyWithPhoto(cat[0]?.url);
     } catch (error) {
         console.log(error, "error");
         // throw new Error(error);
