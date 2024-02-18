@@ -1,11 +1,11 @@
 import Fastify from "fastify";
 
-export default async function runServer() {
-    console.log("Run the server!");
+let server;
+const port = process.env.PORT || 3000;
 
+export function createServer() {
     try {
-        const port = process.env.PORT || 3000;
-        const server = Fastify(); // { logger: true }
+        server = Fastify(); // { logger: true }
 
         server.get("/111", async (request, reply) => {
             return "world";
@@ -23,13 +23,23 @@ export default async function runServer() {
 
         // server.register(productRoutes, { prefix: "/api/products" });
 
-        await server.listen({ port });
-        console.log("Listening on port", port);
-
         return server;
     } catch (err) {
-        console.log(err, "errrrrrrrrrrrrr");
-        // server.log.error(err);
+        console.log(err, "errrrrrrrrrrrrr createServer");
+        server.log.error(err);
+        process.exit(1);
+    }
+}
+
+export async function runServer() {
+    console.log("Run the server!");
+
+    try {
+        await server.listen({ port });
+        console.log("Listening on port", port);
+    } catch (err) {
+        console.log(err, "errrrrrrrrrrrrr runServer");
+        server.log.error(err);
         process.exit(1);
     }
 }
