@@ -5,6 +5,7 @@ import getBot from "./bot.js";
 
 dotenv.config();
 
+let server;
 const bot = getBot();
 
 if (process.env.NODE_ENV === "production") {
@@ -12,7 +13,7 @@ if (process.env.NODE_ENV === "production") {
     (async () => {
         const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
         const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
-        const server = await runServer();
+        server = await runServer();
 
         server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
 
@@ -37,10 +38,10 @@ if (process.env.NODE_ENV === "production") {
 async function closeGracefully(signal) {
     console.log(`*^!@4=> Received signal to terminate: ${signal}`);
 
-    //    await fastify.close()
+    await server.close();
     //    // await db.close() if we have a db connection in this app
     //    // await other things we should cleanup nicely
-    //    process.kill(process.pid, signal);
+    process.kill(process.pid, signal);
 }
 process.once("SIGINT", closeGracefully);
 process.once("SIGTERM", closeGracefully);
