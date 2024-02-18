@@ -26,7 +26,7 @@ export function createServer() {
         return server;
     } catch (err) {
         console.log(err, "errrrrrrrrrrrrr createServer");
-        server.log.error(err);
+        // server.log.error(err);
         process.exit(1);
     }
 }
@@ -39,7 +39,7 @@ export async function runServer() {
         console.log("Listening on port", port);
     } catch (err) {
         console.log(err, "errrrrrrrrrrrrr runServer");
-        server.log.error(err);
+        // server.log.error(err);
         process.exit(1);
     }
 }

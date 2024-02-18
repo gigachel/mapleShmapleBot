@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { webhookCallback } from "grammy";
-import { createServer, runServer } from "./runServer.js";
+import { createServer, runServer } from "./server.js";
 import getBot from "./bot.js";
 
 dotenv.config();
@@ -13,11 +13,6 @@ if (process.env.NODE_ENV === "production") {
     (async () => {
         const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
         const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
-        server = createServer();
-
-        server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
-
-        await runServer();
 
         try {
             const webhookInfo = await (await fetch(`https://api.telegram.org/bot${process.env.TOKEN}/getWebhookInfo`)).json();
@@ -25,12 +20,16 @@ if (process.env.NODE_ENV === "production") {
             if (webhookInfo?.result?.url !== `${botDomain}/${botPath}/`) {
                 throw "need setWebhook";
             }
-
-            console.log("webhook is set yet");
         } catch (error) {
             console.log(error, "error");
             await fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
         }
+
+        server = createServer();
+
+        server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
+
+        await runServer();
     })();
 } else {
     console.log("Use Long Polling!");

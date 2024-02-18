@@ -1,6 +1,6 @@
 {
     "name": "mapleshmaplebot",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "server/index.js",
     "type": "module",
@@ -21,15 +21,14 @@
     },
     "homepage": "https://github.com/gigachel/mapleShmapleBot#readme",
     "dependencies": {
-        "@grammyjs/conversations": "^1.1.0",
-        "@grammyjs/menu": "^1.1.2",
-        "dotenv": "^16.0.3",
-        "fastify": "^4.10.2",
-        "grammy": "^1.13.0",
-        "node-fetch": "^3.3.0",
-        "telegraf": "^4.11.2"
+        "@grammyjs/conversations": "^1.2.0",
+        "@grammyjs/menu": "^1.2.1",
+        "dotenv": "^16.4.4",
+        "fastify": "^4.26.1",
+        "grammy": "^1.21.1",
+        "telegraf": "^4.15.3"
     },
     "devDependencies": {
-        "eslint": "^8.29.0"
+        "eslint": "^8.56.0"
     }
 }
