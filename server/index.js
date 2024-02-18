@@ -10,6 +10,48 @@ dotenv.config();
 
 const bot = new Bot(process.env.TOKEN);
 
+// Run the server!
+if (process.env.NODE_ENV === "production") {
+    console.log("Run the server!");
+    const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
+    const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
+    const port = process.env.PORT || 3000;
+    const server = Fastify(); // { logger: true }
+
+    fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
+
+    server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
+    server.get("/111", async (request, reply) => {
+        return "world";
+    });
+
+    server.setErrorHandler(function (error, request, reply) {
+        console.log("[LOG] : error-------------", error);
+        // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
+        //     // Log error
+        //     this.log.error(error);
+        //     // Send error response
+        //     reply.status(500).send({ ok: false });
+        // }
+    });
+
+    (async () => {
+        // server.register(productRoutes, { prefix: "/api/products" });
+
+        try {
+            await server.listen({ port });
+            console.log("Listening on port", port);
+        } catch (err) {
+            console.log(err, "errrrrrrrrrrrrr");
+            server.log.error(err);
+            process.exit(1);
+        }
+    })();
+} else {
+    console.log("Use Long Polling!");
+    bot.start(); // Use Long Polling for development
+}
+
 bot.use(session({ initial: () => ({}) }));
 // bot.use(
 //     session({
@@ -185,47 +227,47 @@ bot.api.setMyCommands([
     },
 ]);
 
-// Run the server!
-if (process.env.NODE_ENV === "production") {
-    console.log("Run the server!");
-    const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
-    const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
-    const port = process.env.PORT || 3000;
-    const server = Fastify(); // { logger: true }
+// // Run the server!
+// if (process.env.NODE_ENV === "production") {
+//     console.log("Run the server!");
+//     const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
+//     const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
+//     const port = process.env.PORT || 3000;
+//     const server = Fastify(); // { logger: true }
 
-    fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
+//     fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
 
-    server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
-    server.get("/111", async (request, reply) => {
-        return "world";
-    });
+//     server.post(`/${botPath}/`, webhookCallback(bot, "fastify")); // bot listen path
+//     server.get("/111", async (request, reply) => {
+//         return "world";
+//     });
 
-    server.setErrorHandler(function (error, request, reply) {
-        console.log("[LOG] : error-------------", error);
-        // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
-        //     // Log error
-        //     this.log.error(error);
-        //     // Send error response
-        //     reply.status(500).send({ ok: false });
-        // }
-    });
+//     server.setErrorHandler(function (error, request, reply) {
+//         console.log("[LOG] : error-------------", error);
+//         // if (error instanceof Fastify.errorCodes.FST_ERR_BAD_STATUS_CODE) {
+//         //     // Log error
+//         //     this.log.error(error);
+//         //     // Send error response
+//         //     reply.status(500).send({ ok: false });
+//         // }
+//     });
 
-    (async () => {
-        // server.register(productRoutes, { prefix: "/api/products" });
+//     (async () => {
+//         // server.register(productRoutes, { prefix: "/api/products" });
 
-        try {
-            await server.listen({ port });
-            console.log("Listening on port", port);
-        } catch (err) {
-            console.log(err, "errrrrrrrrrrrrr");
-            server.log.error(err);
-            process.exit(1);
-        }
-    })();
-} else {
-    console.log("Use Long Polling!");
-    bot.start(); // Use Long Polling for development
-}
+//         try {
+//             await server.listen({ port });
+//             console.log("Listening on port", port);
+//         } catch (err) {
+//             console.log(err, "errrrrrrrrrrrrr");
+//             server.log.error(err);
+//             process.exit(1);
+//         }
+//     })();
+// } else {
+//     console.log("Use Long Polling!");
+//     bot.start(); // Use Long Polling for development
+// }
 
 async function closeGracefully(signal) {
     console.log(`*^!@4=> Received signal to terminate: ${signal}`);
