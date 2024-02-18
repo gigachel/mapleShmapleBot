@@ -181,4 +181,6 @@ export default function getBot() {
             description: "список горячих клавиш",
         },
     ]);
+
+    return bot;
 }
