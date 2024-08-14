@@ -42,7 +42,7 @@ services:
         #     "
         volumes:
             # - .env:.env
-            - ./server:/home/node/app/server
+            - ./server:/home/node/app/server:rw
             - ./public:/home/node/app/public
             # - ./app/server:/home/node/app/server
             # - ./app/public:/home/node/app/public
