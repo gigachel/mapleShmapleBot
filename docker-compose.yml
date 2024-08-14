@@ -9,8 +9,8 @@ services:
             - ./public:/usr/share/nginx/html:ro
         ports:
             # - 127.0.0.1:8080:80
-            - 80:80
-            - 443:443
+            - 81:80
+            - 444:443
 
     node2:
         image: node:20-alpine
