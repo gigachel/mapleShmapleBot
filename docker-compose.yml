@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+    nginx:
+        image: nginx:alpine
+        restart: always
+        volumes:
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/ssl:/etc/nginx/ssl/live:ro
+            - ./public:/usr/share/nginx/html:ro
+        ports:
+            # - 127.0.0.1:8080:80
+            - 80:80
+            - 443:443
+
+    node2:
+        image: node:20-alpine
+        user: node
+        restart: always # unless-stopped
+        working_dir: /home/node/app/server
+        env_file: .env
+        # environment:
+        #     DATABASE_URL: postgresql://$DB_USER:$DB_PASSWORD@db:$DB_PORT/$DB?schema=public # for prisma
+        #     - NODE_ENV=$NODE_ENV
+        # command: node server.js
+        # depends_on:
+        #     - db
+        command:
+            sh -c "
+            if [ '$NODE_ENV' == 'development' ]; then
+            echo 'dev!!!';
+            npm run dev;
+            else
+            echo 'prod!!!';
+            npm run prod;
+            fi"
+            # npm ci --omit=dev && npm start;
+            # npm ci --production && npm start;
+        # command: sh -c "
+        #         if [[true]]; then
+        #             npm run dev;
+        #         else  npm ci && npm start fi
+        #     "
+        volumes:
+            # - .env:.env
+            - ./server:/home/node/app/server
+            - ./public:/home/node/app/public
+            # - ./app/server:/home/node/app/server
+            # - ./app/public:/home/node/app/public
+            # - exclude:/home/node/app/server/node_modules/
+        # ports:
+        #     - 3000:3000 # dev
+# volumes:
+#     exclude:

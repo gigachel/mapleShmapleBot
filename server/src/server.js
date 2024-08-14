@@ -1,7 +1,8 @@
 import Fastify from "fastify";
 
 let server;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3030;
+const host = process.env.HOST || "node2";
 
 export function createServer() {
     try {
@@ -35,7 +36,7 @@ export async function runServer() {
     console.log("Run the server!");
 
     try {
-        await server.listen({ port });
+        await server.listen({ port, host });
         console.log("Listening on port", port);
     } catch (err) {
         console.log(err, "errrrrrrrrrrrrr runServer");
