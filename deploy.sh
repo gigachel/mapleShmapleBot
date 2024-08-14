@@ -4,7 +4,7 @@ if [ "$NODE_ENV" == "production" ]; then
     git checkout main
     git fetch --all # git pull force
     git reset --hard origin/main # git pull force
-    # chmod -R 777 ./app/server # чтобы были права на создание node_modules из контейнера
+    chmod -R 777 ./server # чтобы были права на создание node_modules из контейнера TODO: !!!!!!!!!!!!!!!!!!!!!!!
 fi
 
 
