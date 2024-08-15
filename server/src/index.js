@@ -11,7 +11,8 @@ const bot = getBot();
 if (process.env.NODE_ENV === "production") {
     // Run the server!
     (async () => {
-        const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
+        // const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
+        const botDomain = "https://komimall.ru:444";
         const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 
         try {
