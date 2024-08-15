@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
     // Run the server!
     (async () => {
         // const botDomain = "https://persian-blue-rabbit-belt.cyclic.app";
-        const botDomain = "https://komimall.ru:444";
+        const botDomain = "https://komimall.ru:8443";
         const botPath = Buffer.from(process.env.TOKEN.split(":")[1]).toString("base64");
 
         try {
@@ -23,7 +23,8 @@ if (process.env.NODE_ENV === "production") {
             }
         } catch (error) {
             console.log(error, "error");
-            await fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
+            const setInfo = await fetch(`https://api.telegram.org/bot${process.env.TOKEN}/setWebhook?url=${botDomain}/${botPath}/`); // можно без await
+            console.log("[LOG] : setInfo:", await setInfo.json());
         }
 
         server = createServer();

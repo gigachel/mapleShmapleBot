@@ -10,7 +10,7 @@ services:
         ports:
             # - 127.0.0.1:8080:80
             - 81:80
-            - 444:443
+            - 8443:443
 
     node2:
         image: node:20-alpine
