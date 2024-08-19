@@ -16,11 +16,17 @@
     "dependencies": {
         "@grammyjs/conversations": "^1.2.0",
         "@grammyjs/menu": "^1.2.2",
+        "@prisma/client": "^5.18.0",
         "dotenv": "^16.4.5",
         "fastify": "^4.28.1",
         "grammy": "^1.28.0"
     },
     "devDependencies": {
-        "eslint": "^9.9.0"
+        "@eslint/js": "^9.9.0",
+        "eslint": "^9.9.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "prettier": "^3.3.3",
+        "prisma": "^5.18.0"
     }
 }
