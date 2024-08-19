@@ -33,6 +33,34 @@ export default function getBot() {
   bot.use(createConversation(wikiConvers));
   bot.use(createConversation(citiesGameConvers));
 
+  async function responseTime(ctx, next) {
+    // take time before
+    const before = Date.now(); // milliseconds
+    // invoke downstream middleware
+    await next(); // make sure to `await`!
+    // take time after
+    const after = Date.now(); // milliseconds
+    // log difference
+    console.log(`Response time: ${after - before} ms`);
+
+    const user = ctx.update.message.from;
+
+    await prisma.user.upsert({
+      where: {
+        tg_id: user.id,
+      },
+      update: {},
+      create: {
+        tg_id: user.id,
+        name: user.username,
+      },
+    });
+
+    console.log("username: " + user.username);
+  }
+
+  bot.use(responseTime);
+
   bot.command("hotkeys", (ctx) => {
     ctx.reply(
       "<b>F1</b> - помощь\n" +
@@ -149,23 +177,17 @@ export default function getBot() {
     // await ctx.answerCallbackQuery(); // remove loading animation
   });
 
+  bot.hears("users", async (ctx) => {
+    const users = await prisma.user.findMany();
+    return ctx.reply(users);
+  });
+
   bot.on("message", async (ctx) => {
     const user = ctx.update.message.from;
 
-    const upsertUser = await prisma.user.upsert({
-      where: {
-        tg_id: user.id,
-      },
-      update: {},
-      create: {
-        tg_id: user.id,
-        name: user.username,
-      },
-    });
-
-    // return ctx.reply("Hello, " + user.first_name + "!");
+    return ctx.reply("Hello, " + user.first_name + "!");
     // return ctx.reply(ctx);
-    return ctx.reply(upsertUser);
+    // return ctx.reply(upsertUser);
   });
 
   bot.errorBoundary((err) => console.error("!!!!!!!!!!!!!!!!!11", err));
