@@ -1,12 +1,11 @@
+import { PrismaClient } from "@prisma/client";
 import { Bot, session, InlineKeyboard } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.js";
 import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
 
-// import { PrismaClient } from "@prisma/client";
-
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export default function getBot() {
   const bot = new Bot(process.env.TOKEN);
@@ -150,10 +149,23 @@ export default function getBot() {
     // await ctx.answerCallbackQuery(); // remove loading animation
   });
 
-  bot.on("message", (ctx) => {
+  bot.on("message", async (ctx) => {
     const user = ctx.update.message.from;
+
+    const upsertUser = await prisma.user.upsert({
+      where: {
+        tg_id: user.id,
+      },
+      update: {},
+      create: {
+        tg_id: user.id,
+        name: user.username,
+      },
+    });
+
     // return ctx.reply("Hello, " + user.first_name + "!");
-    return ctx.reply(ctx);
+    // return ctx.reply(ctx);
+    return ctx.reply(upsertUser);
   });
 
   bot.errorBoundary((err) => console.error("!!!!!!!!!!!!!!!!!11", err));
