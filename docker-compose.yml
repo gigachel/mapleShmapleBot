@@ -32,7 +32,7 @@ services:
       else
       echo 'prod!!!';
       npm run prod;
-      npx prisma migrate deploy
+      npx prisma migrate deploy;
       fi"
       # npm ci --omit=dev && npm start;
       # npm ci --production && npm start;
