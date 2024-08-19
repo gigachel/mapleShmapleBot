@@ -74,7 +74,6 @@ export default function getBot() {
   });
 
   bot.command("fox", async (ctx) => {
-    console.log("[LOG] : bot.command : ctx:", ctx);
     const fox = await (await fetch("https://randomfox.ca/floof/")).json();
     ctx.replyWithPhoto(fox.image);
   });
@@ -153,7 +152,8 @@ export default function getBot() {
 
   bot.on("message", (ctx) => {
     const user = ctx.update.message.from;
-    return ctx.reply("Hello, " + user.first_name + "!");
+    // return ctx.reply("Hello, " + user.first_name + "!");
+    return ctx.reply(ctx);
   });
 
   bot.errorBoundary((err) => console.error("!!!!!!!!!!!!!!!!!11", err));
