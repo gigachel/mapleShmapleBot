@@ -39,20 +39,21 @@ export default function getBot() {
 
     ///////////
     console.log("[LOG] : responseTime : ctx:", ctx);
-    const user = ctx.update.message.from;
+    const user = ctx.update.message?.from;
 
-    await prisma.user.upsert({
-      where: {
-        tg_id: user.id,
-      },
-      update: {},
-      create: {
-        tg_id: user.id,
-        name: user.username,
-      },
-    });
-
-    console.log("username: " + user.username);
+    if (user) {
+      console.log("username: " + user.username);
+      await prisma.user.upsert({
+        where: {
+          tg_id: user.id,
+        },
+        update: {},
+        create: {
+          tg_id: user.id,
+          name: user.username,
+        },
+      });
+    }
     //////////////////////////
 
     // invoke downstream middleware
