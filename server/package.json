@@ -10,7 +10,7 @@
     "dev": "node src/index.js",
     "start": "node src/index.js",
     "start2": "node --experimental-vm-modules --no-warnings src/index.js",
-    "prod": "npm ci --omit=dev && npm start",
+    "prod": "npm ci --omit=dev && npx prisma migrate deploy && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
