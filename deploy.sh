@@ -4,7 +4,7 @@ if [ "$NODE_ENV" == "production" ]; then
     git checkout main
     git fetch --all # git pull force
     git reset --hard origin/main # git pull force
-    # chmod -R 777 ./server # чтобы были права на создание node_modules из контейнера TODO: !!!!!!!!!!!!!!!!!!!!!!!
+    chmod -R 777 ./server # чтобы были права на создание node_modules из контейнера TODO: !!!!!!!!!!!!!!!!!!!!!!!
     chown node:node ./server # чтобы были права на создание node_modules из контейнера TODO: !!!!!!!!!!
     chown node:node ./server/prisma/dev.db # для записи в SQLite TODO: !!!!!!!!!!
 fi
