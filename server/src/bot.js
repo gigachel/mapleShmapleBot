@@ -36,13 +36,9 @@ export default function getBot() {
   async function responseTime(ctx, next) {
     // take time before
     const before = Date.now(); // milliseconds
-    // invoke downstream middleware
-    await next(); // make sure to `await`!
-    // take time after
-    const after = Date.now(); // milliseconds
-    // log difference
-    console.log(`Response time: ${after - before} ms`);
 
+    ///////////
+    console.log("[LOG] : responseTime : ctx:", ctx);
     const user = ctx.update.message.from;
 
     await prisma.user.upsert({
@@ -57,6 +53,14 @@ export default function getBot() {
     });
 
     console.log("username: " + user.username);
+    //////////////////////////
+
+    // invoke downstream middleware
+    await next(); // make sure to `await`!
+    // take time after
+    const after = Date.now(); // milliseconds
+    // log difference
+    console.log(`Response time: ${after - before} ms`);
   }
 
   bot.use(responseTime);
