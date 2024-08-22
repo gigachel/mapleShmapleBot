@@ -7,7 +7,7 @@ import capitalsDB from "./capitals_db.js";
 
 var miniSearch = new MiniSearch({
   fields: ["country", "capital", "countryAlt"], // fields to index for full-text search
-  storeFields: ["country", "capital"], // fields to return with search results
+  storeFields: ["country", "capital", "countryAlt"], // fields to return with search results
 });
 
 // // Index all documents
