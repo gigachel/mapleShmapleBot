@@ -205,7 +205,7 @@ export default function getBot() {
       const string = ctx.match[1].toLowerCase();
 
       const capitalObj = capitalsDB.find((item) => {
-        return item.country.toLowerCase === string || item.capital.toLowerCase === string;
+        return item.country.toLowerCase() === string || item.capital.toLowerCase() === string;
       });
 
       if (capitalObj) {
