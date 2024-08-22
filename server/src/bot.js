@@ -223,7 +223,10 @@ export default function getBot() {
       // });
 
       if (capitalObj) {
-        ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
+        const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
+        ctx.reply(`<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, {
+          parse_mode: "HTML",
+        });
       } else {
         const capitalsArr = searchCapitals(string);
         console.log("[LOG] : bot.hears : capitalsArr:", capitalsArr);

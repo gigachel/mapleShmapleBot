@@ -225,6 +225,14 @@ const countryAlts = [
     country: "Республика Корея",
     countryAlt: "Южная Корея",
   },
+  {
+    country: "Китай",
+    countryAlt: "Китайская Народная Республика, КНР",
+  },
+  {
+    country: "Китайская Республика",
+    countryAlt: "Тайвань",
+  },
 ];
 
 const capitals = [
