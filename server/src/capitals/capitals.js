@@ -18,6 +18,6 @@ miniSearch.addAll(capitalsDB);
 // console.log(results)
 
 // export search by query
-export default function search(query) {
+export default function searchCapitals(query) {
   return miniSearch.search(query, { prefix: true, fuzzy: 0.4 });
 }

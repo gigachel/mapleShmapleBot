@@ -47,11 +47,11 @@ export default function getBot() {
       console.log("username: " + user.username);
       await prisma.user.upsert({
         where: {
-          tg_id: user.id,
+          tg_id: String(user.id),
         },
         update: {},
         create: {
-          tg_id: user.id,
+          tg_id: String(user.id),
           name: user.username,
         },
       });
@@ -226,6 +226,7 @@ export default function getBot() {
         ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
       } else {
         const capitalsArr = searchCapitals(string);
+        console.log("[LOG] : bot.hears : capitalsArr:", capitalsArr);
 
         // if (capitalObjs.length === 1) {
         //   ctx.reply(`<b>Страна</b>: ${capitalObjs[0].country}\n` + `<b>Столица</b>: ${capitalObjs[0].capital}\n`, { parse_mode: "HTML" });
