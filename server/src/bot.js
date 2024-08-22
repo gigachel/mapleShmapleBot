@@ -5,6 +5,7 @@ import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.j
 import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
 import capitalsDB from "./capitals/capitals_db.js";
+import searchCapitals from "./capitals/capitals.js";
 
 const prisma = new PrismaClient();
 
@@ -205,15 +206,48 @@ export default function getBot() {
       const string = ctx.match[1].toLowerCase();
 
       const capitalObj = capitalsDB.find((item) => {
-        return item.country.toLowerCase() === string || item.capital.toLowerCase() === string;
+        const countryAltArr = item.countryAlt ? item.countryAlt.split(", ") : [];
+        return item.country.toLowerCase() === string || item.capital.toLowerCase() === string || countryAltArr.includes(string);
       });
 
-      // TODO: search from capitals.js
+      // // TODO: search from capitals.js
+
+      // if (capitalObj) {
+      //   ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
+      // } else {
+      //   ctx.reply("Не нашлось такой страны или столицы...");
+      // }
+
+      // const capitalObj = capitalsDB.find((item) => {
+      //   return item.country.toLowerCase() === string || item.capital.toLowerCase() === string;
+      // });
 
       if (capitalObj) {
         ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
       } else {
-        ctx.reply("Не нашлось такой страны или столицы...");
+        const capitalsArr = searchCapitals(string);
+
+        // if (capitalObjs.length === 1) {
+        //   ctx.reply(`<b>Страна</b>: ${capitalObjs[0].country}\n` + `<b>Столица</b>: ${capitalObjs[0].capital}\n`, { parse_mode: "HTML" });
+        // } else if (capitalObjs.length > 1) {
+        //   ctx.reply(`<b>Страна</b>: ${capitalObjs[0].country}\n` + `<b>Столица</b>: ${capitalObjs[0].capital}\n`, { parse_mode: "HTML" });
+        // } else {
+        //   ctx.reply("Не нашлось такой страны или столицы...");
+        // }
+
+        if (capitalsArr.length) {
+          let html = "Не нашлось точного совпадения страны или мтолицы " + string + " возможно вы искали\n\n";
+
+          capitalsArr.length = 3;
+
+          for (const capitalObj of capitalsArr) {
+            html += `<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
+          }
+
+          ctx.reply(html, { parse_mode: "HTML" });
+        } else {
+          ctx.reply("Не нашлось такой страны или столицы...");
+        }
       }
     } else {
       ctx.reply("Напиши страну или столицу");
