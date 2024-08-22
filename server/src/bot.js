@@ -208,6 +208,8 @@ export default function getBot() {
         return item.country.toLowerCase() === string || item.capital.toLowerCase() === string;
       });
 
+      // TODO: search from capitals.js
+
       if (capitalObj) {
         ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
       } else {

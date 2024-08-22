@@ -1,6 +1,8 @@
 // https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D1%81%D1%82%D0%BE%D0%BB%D0%B8%D1%86_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2
 // Таблицу в json https://www.convertjson.com/html-table-to-json.htm - 5 таблиц сразу
 
+// cap = capitals.map((item, index) => ({ id: index + 1, country: item[0], capital: item[1] }))
+
 // const capitals = [
 //   ["Нидерланды", "Амстердам"],
 //   ["Андорра", "Андорра-ла-Велья"],
@@ -209,824 +211,1037 @@
 //   ["Науру", ""], // Официальной столицы нет
 // ];
 
+// TODO: Добавляем свою инфу
+// const myCountryAlts = [
+//   {
+//     country: "КНДР", // поиск по нему
+//     countryAlt: "Северная Корея, Корейская Народно-Демократическая Республика", // добавляем в инфу из wiki
+//   },
+// ];
+
 export default [
   {
+    id: 1,
     country: "Нидерланды",
     capital: "Амстердам",
   },
   {
+    id: 2,
     country: "Андорра",
     capital: "Андорра-ла-Велья",
   },
   {
+    id: 3,
     country: "Греция",
     capital: "Афины",
   },
   {
+    id: 4,
     country: "Сербия",
     capital: "Белград",
   },
   {
+    id: 5,
     country: "Германия",
     capital: "Берлин",
   },
   {
+    id: 6,
     country: "Швейцария",
     capital: "Берн",
   },
   {
+    id: 7,
     country: "Словакия",
     capital: "Братислава",
   },
   {
+    id: 8,
     country: "Бельгия",
     capital: "Брюссель",
   },
   {
+    id: 9,
     country: "Венгрия",
     capital: "Будапешт",
   },
   {
+    id: 10,
     country: "Румыния",
     capital: "Бухарест",
   },
   {
+    id: 11,
     country: "Лихтенштейн",
     capital: "Вадуц",
   },
   {
+    id: 12,
     country: "Мальта",
     capital: "Валлетта",
   },
   {
+    id: 13,
     country: "Польша",
     capital: "Варшава",
   },
   {
+    id: 14,
     country: "Ватикан",
     capital: "Ватикан",
   },
   {
+    id: 15,
     country: "Австрия",
     capital: "Вена",
   },
   {
+    id: 16,
     country: "Литва",
     capital: "Вильнюс",
   },
   {
+    id: 17,
     country: "Ирландия",
     capital: "Дублин",
   },
   {
+    id: 18,
     country: "Хорватия",
     capital: "Загреб",
   },
   {
+    id: 19,
     country: "Украина",
     capital: "Киев",
   },
   {
+    id: 20,
     country: "Молдавия",
     capital: "Кишинёв",
   },
   {
+    id: 21,
     country: "Дания",
     capital: "Копенгаген",
   },
   {
+    id: 22,
     country: "Португалия",
     capital: "Лиссабон",
   },
   {
+    id: 23,
     country: "Великобритания",
     capital: "Лондон",
   },
   {
+    id: 24,
     country: "Словения",
     capital: "Любляна",
   },
   {
+    id: 25,
     country: "Люксембург",
     capital: "Люксембург",
   },
   {
+    id: 26,
     country: "Испания",
     capital: "Мадрид",
   },
   {
+    id: 27,
     country: "Белоруссия",
     capital: "Минск",
   },
   {
+    id: 28,
     country: "Монако",
     capital: "Монако",
   },
   {
+    id: 29,
     country: "Россия",
     capital: "Москва",
   },
   {
+    id: 30,
     country: "Норвегия",
     capital: "Осло",
   },
   {
+    id: 31,
     country: "Франция",
     capital: "Париж",
   },
   {
+    id: 32,
     country: "Черногория",
     capital: "Подгорица",
   },
   {
+    id: 33,
     country: "Чехия",
     capital: "Прага",
   },
   {
+    id: 34,
     country: "Исландия",
     capital: "Рейкьявик",
   },
   {
+    id: 35,
     country: "Латвия",
     capital: "Рига",
   },
   {
+    id: 36,
     country: "Италия",
     capital: "Рим",
   },
   {
+    id: 37,
     country: "Сан-Марино",
     capital: "Сан-Марино",
   },
   {
+    id: 38,
     country: "Босния и Герцеговина",
     capital: "Сараево",
   },
   {
+    id: 39,
     country: "Северная Македония",
     capital: "Скопье",
   },
   {
+    id: 40,
     country: "Болгария",
     capital: "София",
   },
   {
+    id: 41,
     country: "Швеция",
     capital: "Стокгольм",
   },
   {
+    id: 42,
     country: "Эстония",
     capital: "Таллин",
   },
   {
+    id: 43,
     country: "Албания",
     capital: "Тирана",
   },
   {
+    id: 44,
     country: "Финляндия",
     capital: "Хельсинки",
   },
   {
+    id: 45,
     country: "Республика Косово",
     capital: "Приштина",
   },
   {
+    id: 46,
     country: "Приднестровская Молдавская Республика",
     capital: "Тирасполь",
   },
   {
+    id: 47,
     country: "ОАЭ",
     capital: "Абу-Даби",
   },
   {
+    id: 48,
     country: "Иордания",
     capital: "Амман",
   },
   {
+    id: 49,
     country: "Турция",
     capital: "Анкара",
   },
   {
+    id: 50,
     country: "Казахстан",
     capital: "Астана",
   },
   {
+    id: 51,
     country: "Туркменистан",
     capital: "Ашхабад",
   },
   {
+    id: 52,
     country: "Ирак",
     capital: "Багдад",
   },
   {
+    id: 53,
     country: "Азербайджан",
     capital: "Баку",
   },
   {
+    id: 54,
     country: "Таиланд",
     capital: "Бангкок",
   },
   {
+    id: 55,
     country: "Бруней",
     capital: "Бандар-Сери-Бегаван",
   },
   {
+    id: 56,
     country: "Ливан",
     capital: "Бейрут",
   },
   {
+    id: 57,
     country: "Кыргызстан",
     capital: "Бишкек",
   },
   {
+    id: 58,
     country: "Лаос",
     capital: "Вьентьян",
   },
   {
+    id: 59,
     country: "Бангладеш",
     capital: "Дакка",
   },
   {
+    id: 60,
     country: "Сирия",
     capital: "Дамаск",
   },
   {
+    id: 61,
     country: "Индия",
     capital: "Дели (Нью-Дели)",
   },
   {
+    id: 62,
     country: "Индонезия",
     capital: "Джакарта",
   },
   {
+    id: 63,
     country: "Восточный Тимор",
     capital: "Дили",
   },
   {
+    id: 64,
     country: "Катар",
     capital: "Доха",
   },
   {
+    id: 65,
     country: "Таджикистан",
     capital: "Душанбе",
   },
   {
+    id: 66,
     country: "Армения",
     capital: "Ереван",
   },
   {
+    id: 67,
     country: "Израиль",
     capital: "Иерусалим",
   },
   {
+    id: 68,
     country: "Пакистан",
     capital: "Исламабад",
   },
   {
+    id: 69,
     country: "Афганистан",
     capital: "Кабул",
   },
   {
+    id: 70,
     country: "Непал",
     capital: "Катманду",
   },
   {
+    id: 71,
     country: "Малайзия",
     capital: "Куала-Лумпур",
   },
   {
+    id: 72,
     country: "Мальдивы",
     capital: "Мале",
   },
   {
+    id: 73,
     country: "Бахрейн",
     capital: "Манама",
   },
   {
+    id: 74,
     country: "Филиппины",
     capital: "Манила",
   },
   {
+    id: 75,
     country: "Оман",
     capital: "Маскат",
   },
   {
+    id: 76,
     country: "Мьянма",
     capital: "Нейпьидо",
   },
   {
+    id: 77,
     country: "Кипр",
     capital: "Никосия",
   },
   {
+    id: 78,
     country: "Китай",
     capital: "Пекин",
   },
   {
+    id: 79,
     country: "Камбоджа",
     capital: "Пномпень",
   },
   {
+    id: 80,
     country: "КНДР",
     capital: "Пхеньян",
   },
   {
+    id: 81,
     country: "Йемен",
     capital: "Сана",
   },
   {
+    id: 82,
     country: "Республика Корея",
     capital: "Сеул",
   },
   {
+    id: 83,
     country: "Сингапур",
     capital: "Сингапур",
   },
   {
+    id: 84,
     country: "Узбекистан",
     capital: "Ташкент",
   },
   {
+    id: 85,
     country: "Грузия",
     capital: "Тбилиси",
   },
   {
+    id: 86,
     country: "Иран",
     capital: "Тегеран",
   },
   {
+    id: 87,
     country: "Япония",
     capital: "Токио",
   },
   {
+    id: 88,
     country: "Бутан",
     capital: "Тхимпху",
   },
   {
+    id: 89,
     country: "Монголия",
     capital: "Улан-Батор",
   },
   {
+    id: 90,
     country: "Вьетнам",
     capital: "Ханой",
   },
   {
+    id: 91,
     country: "Шри-Ланка",
     capital: "Шри-Джаяварденепура-Котте",
   },
   {
+    id: 92,
     country: "Кувейт",
     capital: "Эль-Кувейт",
   },
   {
+    id: 93,
     country: "Саудовская Аравия",
     capital: "Эр-Рияд",
   },
   {
+    id: 94,
     country: "Азад Кашмир",
     capital: "Музаффарабад",
   },
   {
+    id: 95,
     country: "Северный Кипр",
     capital: "Никосия",
   },
   {
+    id: 96,
     country: "Государство Палестина",
     capital: "Рамалла",
   },
   {
+    id: 97,
     country: "Республика Абхазия",
     capital: "Сухум",
   },
   {
+    id: 98,
     country: "Китайская Республика",
     capital: "Тайбэй",
   },
   {
+    id: 99,
     country: "Южная Осетия",
     capital: "Цхинвал",
   },
   {
+    id: 100,
     country: "Нигерия",
     capital: "Абуджа",
   },
   {
+    id: 101,
     country: "Эфиопия",
     capital: "Аддис-Абеба",
   },
   {
+    id: 102,
     country: "Гана",
     capital: "Аккра",
   },
   {
+    id: 103,
     country: "Алжир",
     capital: "Алжир",
   },
   {
+    id: 104,
     country: "Мадагаскар",
     capital: "Антананариву",
   },
   {
+    id: 105,
     country: "Эритрея",
     capital: "Асмэра",
   },
   {
+    id: 106,
     country: "Мали",
     capital: "Бамако",
   },
   {
+    id: 107,
     country: "ЦАР",
     capital: "Банги",
   },
   {
+    id: 108,
     country: "Гамбия",
     capital: "Банжул",
   },
   {
+    id: 109,
     country: "Гвинея-Бисау",
     capital: "Бисау",
   },
   {
+    id: 110,
     country: "Республика Конго",
     capital: "Браззавиль",
   },
   {
+    id: 111,
     country: "Сейшельские Острова",
     capital: "Виктория",
   },
   {
+    id: 112,
     country: "Намибия",
     capital: "Виндхук",
   },
   {
+    id: 113,
     country: "Ботсвана",
     capital: "Габороне",
   },
   {
+    id: 114,
     country: "Бурунди",
     capital: "Гитега",
   },
   {
+    id: 115,
     country: "Сенегал",
     capital: "Дакар",
   },
   {
+    id: 116,
     country: "Джибути",
     capital: "Джибути",
   },
   {
+    id: 117,
     country: "Южный Судан",
     capital: "Джуба",
   },
   {
+    id: 118,
     country: "Танзания",
     capital: "Додома",
   },
   {
+    id: 119,
     country: "Египет",
     capital: "Каир",
   },
   {
+    id: 120,
     country: "Уганда",
     capital: "Кампала",
   },
   {
+    id: 121,
     country: "Руанда",
     capital: "Кигали",
   },
   {
+    id: 122,
     country: "ДР Конго",
     capital: "Киншаса",
   },
   {
+    id: 123,
     country: "Гвинея",
     capital: "Конакри",
   },
   {
+    id: 124,
     country: "Габон",
     capital: "Либревиль",
   },
   {
+    id: 125,
     country: "Малави",
     capital: "Лилонгве",
   },
   {
+    id: 126,
     country: "Того",
     capital: "Ломе",
   },
   {
+    id: 127,
     country: "Ангола",
     capital: "Луанда",
   },
   {
+    id: 128,
     country: "Замбия",
     capital: "Лусака",
   },
   {
+    id: 129,
     country: "Экваториальная Гвинея",
     capital: "Малабо",
   },
   {
+    id: 130,
     country: "Мозамбик",
     capital: "Мапуту",
   },
   {
+    id: 131,
     country: "Лесото",
     capital: "Масеру",
   },
   {
+    id: 132,
     country: "Эсватини",
     capital: "Мбабане",
   },
   {
+    id: 133,
     country: "Сомали",
     capital: "Могадишо",
   },
   {
+    id: 134,
     country: "Либерия",
     capital: "Монровия",
   },
   {
+    id: 135,
     country: "Коморы",
     capital: "Морони",
   },
   {
+    id: 136,
     country: "Кения",
     capital: "Найроби",
   },
   {
+    id: 137,
     country: "Чад",
     capital: "Нджамена",
   },
   {
+    id: 138,
     country: "Нигер",
     capital: "Ниамей",
   },
   {
+    id: 139,
     country: "Мавритания",
     capital: "Нуакшот",
   },
   {
+    id: 140,
     country: "Маврикий",
     capital: "Порт-Луи",
   },
   {
+    id: 141,
     country: "Бенин",
     capital: "Порто-Ново",
   },
   {
+    id: 142,
     country: "Кабо-Верде",
     capital: "Прая",
   },
   {
+    id: 143,
     country: "ЮАР",
     capital: "Претория",
   },
   {
+    id: 144,
     country: "Марокко",
     capital: "Рабат",
   },
   {
+    id: 145,
     country: "Сан-Томе и Принсипи",
     capital: "Сан-Томе",
   },
   {
+    id: 146,
     country: "Ливия",
     capital: "Триполи",
   },
   {
+    id: 147,
     country: "Тунис",
     capital: "Тунис",
   },
   {
+    id: 148,
     country: "Буркина-Фасо",
     capital: "Уагадугу",
   },
   {
+    id: 149,
     country: "Сьерра-Леоне",
     capital: "Фритаун",
   },
   {
+    id: 150,
     country: "Зимбабве",
     capital: "Хараре",
   },
   {
+    id: 151,
     country: "Судан",
     capital: "Хартум",
   },
   {
+    id: 152,
     country: "Кот-д’Ивуар",
     capital: "Ямусукро",
   },
   {
+    id: 153,
     country: "Камерун",
     capital: "Яунде",
   },
   {
+    id: 154,
     country: "Федеративная Республика Амбазония",
     capital: "Буэа",
   },
   {
+    id: 155,
     country: "Сахарская Арабская Демократическая Республика",
     capital: "Тифарити",
   },
   {
+    id: 156,
     country: "Сомалиленд",
     capital: "Харгейса",
   },
   {
+    id: 157,
     country: "Парагвай",
     capital: "Асунсьон",
   },
   {
+    id: 158,
     country: "Сент-Китс и Невис",
     capital: "Бастер",
   },
   {
+    id: 159,
     country: "Белиз",
     capital: "Бельмопан",
   },
   {
+    id: 160,
     country: "Колумбия",
     capital: "Богота",
   },
   {
+    id: 161,
     country: "Бразилия",
     capital: "Бразилиа",
   },
   {
+    id: 162,
     country: "Барбадос",
     capital: "Бриджтаун",
   },
   {
+    id: 163,
     country: "Аргентина",
     capital: "Буэнос-Айрес",
   },
   {
+    id: 164,
     country: "США",
     capital: "Вашингтон",
   },
   {
+    id: 165,
     country: "Куба",
     capital: "Гавана",
   },
   {
+    id: 166,
     country: "Гватемала",
     capital: "Гватемала",
   },
   {
+    id: 167,
     country: "Гайана",
     capital: "Джорджтаун",
   },
   {
+    id: 168,
     country: "Венесуэла",
     capital: "Каракас",
   },
   {
+    id: 169,
     country: "Сент-Люсия",
     capital: "Кастри",
   },
   {
+    id: 170,
     country: "Сент-Винсент и Гренадины",
     capital: "Кингстаун",
   },
   {
+    id: 171,
     country: "Ямайка",
     capital: "Кингстон",
   },
   {
+    id: 172,
     country: "Эквадор",
     capital: "Кито",
   },
   {
+    id: 173,
     country: "Перу",
     capital: "Лима",
   },
   {
+    id: 174,
     country: "Никарагуа",
     capital: "Манагуа",
   },
   {
+    id: 175,
     country: "Мексика",
     capital: "Мехико",
   },
   {
+    id: 176,
     country: "Уругвай",
     capital: "Монтевидео",
   },
   {
+    id: 177,
     country: "Багамские Острова",
     capital: "Нассау",
   },
   {
+    id: 178,
     country: "Канада",
     capital: "Оттава",
   },
   {
+    id: 179,
     country: "Панама",
     capital: "Панама",
   },
   {
+    id: 180,
     country: "Суринам",
     capital: "Парамарибо",
   },
   {
+    id: 181,
     country: "Гаити",
     capital: "Порт-о-Пренс",
   },
   {
+    id: 182,
     country: "Тринидад и Тобаго",
     capital: "Порт-оф-Спейн",
   },
   {
+    id: 183,
     country: "Доминика",
     capital: "Розо",
   },
   {
+    id: 184,
     country: "Сальвадор",
     capital: "Сан-Сальвадор",
   },
   {
+    id: 185,
     country: "Коста-Рика",
     capital: "Сан-Хосе",
   },
   {
+    id: 186,
     country: "Доминиканская Республика",
     capital: "Санто-Доминго",
   },
   {
+    id: 187,
     country: "Чили",
     capital: "Сантьяго",
   },
   {
+    id: 188,
     country: "Антигуа и Барбуда",
     capital: "Сент-Джонс",
   },
   {
+    id: 189,
     country: "Гренада",
     capital: "Сент-Джорджес",
   },
   {
+    id: 190,
     country: "Боливия",
     capital: "Сукре",
   },
   {
+    id: 191,
     country: "Гондурас",
     capital: "Тегусигальпа",
   },
   {
+    id: 192,
     country: "Самоа",
     capital: "Апиа",
   },
   {
+    id: 193,
     country: "Новая Зеландия",
     capital: "Веллингтон",
   },
   {
+    id: 194,
     country: "Австралия",
     capital: "Канберра",
   },
   {
+    id: 195,
     country: "Маршалловы Острова",
     capital: "Маджуро",
   },
   {
+    id: 196,
     country: "Палау",
     capital: "Нгерулмуд",
   },
   {
+    id: 197,
     country: "Тонга",
     capital: "Нукуалофа",
   },
   {
+    id: 198,
     country: "Микронезия",
     capital: "Паликир",
   },
   {
+    id: 199,
     country: "Вануату",
     capital: "Порт-Вила",
   },
   {
+    id: 200,
     country: "Папуа — Новая Гвинея",
     capital: "Порт-Морсби",
   },
   {
+    id: 201,
     country: "Фиджи",
     capital: "Сува",
   },
   {
+    id: 202,
     country: "Тувалу",
     capital: "Фунафути",
   },
   {
+    id: 203,
     country: "Соломоновы Острова",
     capital: "Хониара",
   },
   {
+    id: 204,
     country: "Кирибати",
     capital: "Южная Тарава (Баирики)",
   },
   {
+    id: 205,
     country: "Науру",
     capital: "",
   },
