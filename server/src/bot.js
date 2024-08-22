@@ -243,7 +243,8 @@ export default function getBot() {
 
           // for (const capitalObj of capitalsArr) {
           capitalsArr.forEach((capitalObj) => {
-            html += `<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
+            const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt}` : "";
+            html += `<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
           });
           // }
 

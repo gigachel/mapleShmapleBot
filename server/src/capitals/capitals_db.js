@@ -212,14 +212,14 @@
 // ];
 
 // TODO: Добавляем свою инфу
-// const myCountryAlts = [
-//   {
-//     country: "КНДР", // поиск по нему
-//     countryAlt: "Северная Корея, Корейская Народно-Демократическая Республика", // добавляем в инфу из wiki
-//   },
-// ];
+const countryAlts = [
+  {
+    country: "КНДР", // поиск по нему
+    countryAlt: "Северная Корея, Корейская Народно-Демократическая Республика", // добавляем в инфу из wiki
+  },
+];
 
-export default [
+const capitals = [
   {
     id: 1,
     country: "Нидерланды",
@@ -1246,3 +1246,15 @@ export default [
     capital: "",
   },
 ];
+
+countryAlts.forEach((item) => {
+  const obj = capitals.find((contryObj) => {
+    return contryObj.country === item.country;
+  });
+
+  if (obj) {
+    obj.countryAlt = item.countryAlt;
+  }
+});
+
+export default capitals;
