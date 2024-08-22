@@ -206,7 +206,7 @@ export default function getBot() {
       const string = ctx.match[1].toLowerCase();
 
       const capitalObj = capitalsDB.find((item) => {
-        const countryAltArr = item.countryAlt ? item.countryAlt.split(", ") : [];
+        const countryAltArr = item.countryAlt ? item.countryAlt.toLowerCase().split(", ") : [];
         return item.country.toLowerCase() === string || item.capital.toLowerCase() === string || countryAltArr.includes(string);
       });
 
