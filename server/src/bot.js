@@ -4,6 +4,7 @@ import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.js";
 import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
+import capitalsDB from "./capitals/capitals_db.js";
 
 const prisma = new PrismaClient();
 
@@ -120,7 +121,9 @@ export default function getBot() {
   // });
 
   bot.command("games", async (ctx) => {
+    // Название игры тут начинается на GAMES__, затем само название
     let inlineKeyboard = new InlineKeyboard().text("Города", "GAMES__cities");
+    //.text("Столицы", "GAMES__capitals");
 
     return ctx.reply("Выбери игру", {
       reply_markup: inlineKeyboard,
@@ -177,6 +180,16 @@ export default function getBot() {
         ctx.session.restCities = null;
         ctx.session.wasCities = null;
       }
+
+      // if (gameName === "capitals") {
+      //   ctx.session.restCities = citiesDB;
+      //   ctx.session.wasCities = [];
+
+      //   await ctx.conversation.enter("citiesGameConvers");
+
+      //   ctx.session.restCities = null;
+      //   ctx.session.wasCities = null;
+      // }
     }
 
     // await ctx.answerCallbackQuery(); // remove loading animation
@@ -185,6 +198,24 @@ export default function getBot() {
   bot.hears("users", async (ctx) => {
     const users = await prisma.user.findMany();
     return ctx.reply(users);
+  });
+
+  bot.hears(/столиц[аы] (.+)/i, (ctx) => {
+    if (ctx.match[1]) {
+      const string = ctx.match[1].toLowerCase();
+
+      const capitalObj = capitalsDB.find((item) => {
+        return item.country.toLowerCase === string || item.capital.toLowerCase === string;
+      });
+
+      if (capitalObj) {
+        ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
+      } else {
+        ctx.reply("Не нашлось такой страны или столицы...");
+      }
+    } else {
+      ctx.reply("Напиши страну или столицу");
+    }
   });
 
   bot.on("message", async (ctx) => {
