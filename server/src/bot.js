@@ -237,13 +237,15 @@ export default function getBot() {
         // }
 
         if (capitalsArr.length) {
-          let html = "Не нашлось точного совпадения страны или мтолицы " + string + " возможно вы искали\n\n";
+          let html = "Не нашлось точного совпадения страны или мтолицы <b>" + string + "</b> возможно вы искали\n\n";
 
           capitalsArr.length = 3;
 
-          for (const capitalObj of capitalsArr) {
+          // for (const capitalObj of capitalsArr) {
+          capitalsArr.forEach((capitalObj) => {
             html += `<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
-          }
+          });
+          // }
 
           ctx.reply(html, { parse_mode: "HTML" });
         } else {
