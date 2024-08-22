@@ -237,7 +237,7 @@ export default function getBot() {
         // }
 
         if (capitalsArr.length) {
-          let html = "Не нашлось точного совпадения страны или мтолицы <b>" + string + "</b> возможно вы искали\n\n";
+          let html = "Не нашлось точного совпадения страны или столицы <b>" + string + "</b> возможно вы искали\n\n";
 
           capitalsArr.length = 3;
 
