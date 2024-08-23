@@ -69,37 +69,21 @@ export default function getBot() {
   bot.use(responseTime);
 
   bot.command("hotkeys", (ctx) => {
-    ctx.reply(
-      // "<b>F1</b> - помощь\n" +
-      // "<b>CTRL + A</b> - выделить все\n" +
-      // "<b>CTRL + X</b> - вырезать\n" +
-      // "<b>CTRL + C</b> - копировать\n" +
-      // "<b>CTRL + V</b> - вставить\n" +
-      // "<b>CTRL + Z</b> - отменить последнее действие\n" +
-      // "<b>CTRL + Y</b> - повторить последнее действие\n" +
-      // "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
-      // "<b>CTRL + P</b> - окно печати на принтер\n" +
-      // "<b>ALT + TAB</b> - переключение между окнами\n" +
-      // "<b>ALT + F4</b> - закрыть окно\n" +
-      // "<b>F5</b> - обновить страницу в браузере",
-      `
-        <b>F1</b> - помощь\n
-        <b>CTRL + A</b> - выделить все\n
-        <b>CTRL + X</b> - вырезать\n
-        <b>CTRL + C</b> - копировать\n
-        <b>CTRL + V</b> - вставить\n
-        <b>CTRL + Z</b> - отменить последнее действие\n
-        <b>CTRL + Y</b> - повторить последнее действие\n
-        <b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n
-        <b>CTRL + P</b> - окно печати на принтер\n
-        <b>ALT + TAB</b> - переключение между окнами\n
-        <b>ALT + F4</b> - закрыть окно\n
-        <b>F5</b> - обновить страницу в браузере
-      `,
-      {
-        parse_mode: "HTML",
-      },
-    );
+    const hotkeyText =
+      "<b>F1</b> - помощь\n" +
+      "<b>CTRL + A</b> - выделить все\n" +
+      "<b>CTRL + X</b> - вырезать\n" +
+      "<b>CTRL + C</b> - копировать\n" +
+      "<b>CTRL + V</b> - вставить\n" +
+      "<b>CTRL + Z</b> - отменить последнее действие\n" +
+      "<b>CTRL + Y</b> - повторить последнее действие\n" +
+      "<b>CTRL + S</b> - сохранить текущий документ, проект и т.п.\n" +
+      "<b>CTRL + P</b> - окно печати на принтер\n" +
+      "<b>ALT + TAB</b> - переключение между окнами\n" +
+      "<b>ALT + F4</b> - закрыть окно\n" +
+      "<b>F5</b> - обновить страницу в браузере";
+
+    ctx.reply(hotkeyText, { parse_mode: "HTML" });
   });
 
   bot.command("cat", async (ctx) => {
@@ -224,49 +208,32 @@ export default function getBot() {
         return item.country.toLowerCase() === string || item.capital.toLowerCase() === string || countryAltArr.includes(string);
       });
 
-      // // TODO: search from capitals.js
-
-      // if (capitalObj) {
-      //   ctx.reply(`<b>Страна</b>: ${capitalObj.country}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, { parse_mode: "HTML" });
-      // } else {
-      //   ctx.reply("Не нашлось такой страны или столицы...");
-      // }
-
-      // const capitalObj = capitalsDB.find((item) => {
-      //   return item.country.toLowerCase() === string || item.capital.toLowerCase() === string;
-      // });
-
+      // Точное совпадение
       if (capitalObj) {
         const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
         ctx.reply(`<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, {
           parse_mode: "HTML",
         });
-      } else {
+      }
+      // Ищем неточное совпадение
+      else {
         const capitalsArr = searchCapitals(string);
-        console.log("[LOG] : bot.hears : capitalsArr:", capitalsArr);
 
-        // if (capitalObjs.length === 1) {
-        //   ctx.reply(`<b>Страна</b>: ${capitalObjs[0].country}\n` + `<b>Столица</b>: ${capitalObjs[0].capital}\n`, { parse_mode: "HTML" });
-        // } else if (capitalObjs.length > 1) {
-        //   ctx.reply(`<b>Страна</b>: ${capitalObjs[0].country}\n` + `<b>Столица</b>: ${capitalObjs[0].capital}\n`, { parse_mode: "HTML" });
-        // } else {
-        //   ctx.reply("Не нашлось такой страны или столицы...");
-        // }
-
+        // Нашли несколько неточных совпадений
         if (capitalsArr.length) {
           let html = "Не нашлось точного совпадения страны или столицы <b>" + string + "</b> возможно вы искали\n\n";
 
           capitalsArr.length = 3;
 
-          // for (const capitalObj of capitalsArr) {
           capitalsArr.forEach((capitalObj) => {
             const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
             html += `<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
           });
-          // }
 
           ctx.reply(html, { parse_mode: "HTML" });
-        } else {
+        }
+        // Не нашли даже неточные совпадения...
+        else {
           ctx.reply("Не нашлось такой страны или столицы...");
         }
       }
