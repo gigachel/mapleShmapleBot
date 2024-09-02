@@ -86,6 +86,23 @@ export default function getBot() {
     ctx.reply(hotkeyText, { parse_mode: "HTML" });
   });
 
+  bot.command("algebra_formules", (ctx) => {
+    const formales =
+      "<ul>\n" +
+      "<li><strong>(a+b)<sup>2</sup>=a<sup>2</sup>+2ab+b<sup>2&nbsp;</sup></strong><em>Квадрат суммы двух выражений</em>&nbsp;равен квадрату первого выражения плюс удвоенное произведение первого выражения на второе плюс квадрат второго выражения.</li>\n" +
+      "<li>&nbsp;<strong>(a-b)<sup>2</sup>=a<sup>2</sup>-2ab+b<sup>2 &nbsp;</sup></strong><em>Квадрат разности двух выражений</em>&nbsp;равен квадрату первого выражения минус удвоенное произведение первого выражения на второе плюс квадрат второго выражения.</li>\n" +
+      "<li><strong>&nbsp;a<sup>2</sup>-b<sup>2</sup>=(a-b)(a+b)</strong>&nbsp;&nbsp;&nbsp;<em>Разность квадратов двух выражений</em>&nbsp;равна произведению разности самих выражений на их сумму.</li>\n" +
+      "<li>&nbsp;<strong>(a+b)<sup>3</sup>=a<sup>3</sup>+3a<sup>2</sup>b+3ab<sup>2</sup>+b<sup>3 &nbsp;</sup></strong><em>Куб суммы двух выражений</em>&nbsp;равен кубу первого выражения плюс утроенное произведение квадрата первого выражения на второе плюс утроенное произведение первого выражения на квадрат второго плюс куб второго выражения.</li>\n" +
+      "<li><strong>&nbsp;(a-b)<sup>3</sup>= a<sup>3</sup>-3a<sup>2</sup>b+3ab<sup>2</sup>-b<sup>3 &nbsp;&nbsp;</sup></strong><em>Куб разности двух выражений</em>&nbsp;равен кубу первого выражения минус утроенное произведение квадрата первого выражения на второе плюс утроенное произведение первого выражения на квадрат второго минус куб второго выражения.</li>\n" +
+      "<li><strong>&nbsp;a<sup>3</sup>+b<sup>3</sup>=(a+b)(a<sup>2</sup>-ab+b<sup>2</sup>)</strong>&nbsp;&nbsp;&nbsp;<em>&nbsp;Сумма кубов двух выражений</em>&nbsp;равна произведению суммы самих выражений на неполный квадрат их разности.</li>\n" +
+      "<li>&nbsp;<strong>a<sup>3</sup>-b<sup>3</sup>=(a-b)(a<sup>2</sup>+ab+b<sup>2</sup>)</strong>&nbsp;&nbsp;&nbsp;<em>Разность кубов двух выражений</em>&nbsp;равна произведению разности самих выражений на неполный квадрат их суммы.</li>\n" +
+      "<li><strong>&nbsp;(a+b+c)<sup>2</sup>=a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+2ab+2ac+2bc</strong>&nbsp;&nbsp;&nbsp;<em>Квадрат суммы трех выражений</em>&nbsp;равен сумме квадратов &nbsp;этих выражений плюс всевозможные удвоенные попарные произведения самих выражений.</li>\n" +
+      "<li>&nbsp;Справка. Полный квадрат суммы двух выражений:&nbsp;&nbsp;&nbsp;<strong>a<sup>2</sup>&nbsp;+ 2ab + b<sup>2</sup>&nbsp;</strong></li>\n" +
+      "</ul>";
+
+    ctx.reply(formales, { parse_mode: "HTML" });
+  });
+
   bot.command("cat", async (ctx) => {
     try {
       // const cat = await (await fetch("https://aws.random.cat/meow")).json();
@@ -278,6 +295,10 @@ export default function getBot() {
     {
       command: "hotkeys",
       description: "список горячих клавиш",
+    },
+    {
+      command: "algebra_formules",
+      description: "формулы сокращенного умножения",
     },
   ]);
 
