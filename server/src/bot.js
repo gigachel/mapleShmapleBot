@@ -4,8 +4,8 @@ import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.js";
 import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
-import capitalsDB from "./capitals/capitals_db.js";
-import searchCapitals from "./capitals/capitals.js";
+// import capitalsDB from "./capitals/capitals_db.js";
+import { capitalsConvers, searchCapitals } from "./capitals/capitals.js";
 
 const prisma = new PrismaClient();
 
@@ -34,6 +34,7 @@ export default function getBot() {
   bot.use(conversations());
   bot.use(createConversation(wikiConvers));
   bot.use(createConversation(citiesGameConvers));
+  bot.use(createConversation(capitalsConvers));
 
   async function responseTime(ctx, next) {
     // take time before
@@ -149,6 +150,10 @@ export default function getBot() {
     // return await ctx.conversation.enter("citiesGameConvers");
   });
 
+  bot.command("столицы", async (ctx) => {
+    await ctx.conversation.enter("capitalsConvers");
+  });
+
   // bot.hears(/hello/i, (ctx) => {
   //     ctx.scene.enter("CONTACT_DATA_WIZARD_SCENE_ID");
   //     // Scenes.Stage.enter("CONTACT_DATA_WIZARD_SCENE_ID");
@@ -217,42 +222,45 @@ export default function getBot() {
 
   bot.hears(/столиц[аы] (.+)/i, (ctx) => {
     if (ctx.match[1]) {
-      const string = ctx.match[1].toLowerCase();
+      // const string = ctx.match[1].toLowerCase();
 
-      const capitalObj = capitalsDB.find((item) => {
-        const countryAltArr = item.countryAlt ? item.countryAlt.toLowerCase().split(", ") : [];
-        return item.country.toLowerCase() === string || item.capital.toLowerCase() === string || countryAltArr.includes(string);
-      });
+      // const capitalObj = capitalsDB.find((item) => {
+      //   const countryAltArr = item.countryAlt ? item.countryAlt.toLowerCase().split(", ") : [];
+      //   return item.country.toLowerCase() === string || item.capital.toLowerCase() === string || countryAltArr.includes(string);
+      // });
 
-      // Точное совпадение
-      if (capitalObj) {
-        const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
-        ctx.reply(`<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, {
-          parse_mode: "HTML",
-        });
-      }
-      // Ищем неточное совпадение
-      else {
-        const capitalsArr = searchCapitals(string);
+      // // Точное совпадение
+      // if (capitalObj) {
+      //   const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
+      //   ctx.reply(`<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n`, {
+      //     parse_mode: "HTML",
+      //   });
+      // }
+      // // Ищем неточное совпадение
+      // else {
+      //   const capitalsArr = searchCapitals(string);
 
-        // Нашли несколько неточных совпадений
-        if (capitalsArr.length) {
-          let html = "Не нашлось точного совпадения страны или столицы <b>" + string + "</b> возможно вы искали\n\n";
+      //   // Нашли несколько неточных совпадений
+      //   if (capitalsArr.length) {
+      //     let html = "Не нашлось точного совпадения страны или столицы <b>" + string + "</b> возможно вы искали\n\n";
 
-          capitalsArr.length = 3;
+      //     capitalsArr.length = 3;
 
-          capitalsArr.forEach((capitalObj) => {
-            const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
-            html += `<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
-          });
+      //     capitalsArr.forEach((capitalObj) => {
+      //       const countryAlt = capitalObj.countryAlt ? ` (${capitalObj.countryAlt})` : "";
+      //       html += `<b>Страна</b>: ${capitalObj.country}${countryAlt}\n` + `<b>Столица</b>: ${capitalObj.capital}\n\n`;
+      //     });
 
-          ctx.reply(html, { parse_mode: "HTML" });
-        }
-        // Не нашли даже неточные совпадения...
-        else {
-          ctx.reply("Не нашлось такой страны или столицы...");
-        }
-      }
+      //     ctx.reply(html, { parse_mode: "HTML" });
+      //   }
+      //   // Не нашли даже неточные совпадения...
+      //   else {
+      //     ctx.reply("Не нашлось такой страны или столицы...");
+      //   }
+      // }
+
+      const html = searchCapitals(ctx.match[1]);
+      ctx.reply(html, { parse_mode: "HTML" });
     } else {
       ctx.reply("Напиши страну или столицу");
     }
