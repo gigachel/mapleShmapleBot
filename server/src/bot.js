@@ -304,6 +304,10 @@ export default function getBot() {
       description: "список горячих клавиш",
     },
     {
+      command: "столицы",
+      description: "страны и столицы",
+    },
+    {
       command: "formulas",
       description: "формулы сокращенного умножения",
     },
