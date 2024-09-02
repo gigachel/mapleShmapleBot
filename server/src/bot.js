@@ -150,7 +150,7 @@ export default function getBot() {
     // return await ctx.conversation.enter("citiesGameConvers");
   });
 
-  bot.command("столицы", async (ctx) => {
+  bot.command("capitals", async (ctx) => {
     await ctx.conversation.enter("capitalsConvers");
   });
 
@@ -304,7 +304,7 @@ export default function getBot() {
       description: "список горячих клавиш",
     },
     {
-      command: "столицы",
+      command: "capitals",
       description: "страны и столицы",
     },
     {
