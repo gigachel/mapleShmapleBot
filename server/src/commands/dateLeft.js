@@ -10,11 +10,11 @@ export async function dateLeftConvers(conversation, ctx) {
   dateString = dateString.trim().toLowerCase();
 
   if (dateString === "eva" || dateString === "ева") {
-    dateString = "18.04.2010";
+    dateString = "18.04." + new Date().getFullYear() + 1;
   }
 
   if (dateString === "gala" || dateString === "галя" || dateString === "mama" || dateString === "мама") {
-    dateString = "04.07.1987";
+    dateString = "04.07." + new Date().getFullYear() + 1;
   }
 
   const html = downCounter(dateString);
@@ -45,7 +45,7 @@ function downCounter(dateString) {
   const minutes = Math.floor((dateLeftAbs % 3600) / 60);
   const seconds = Math.floor(dateLeftAbs % 60);
 
-  dateLeftString += dateLeft > 0 ? "Осталось" : "Прошло";
+  dateLeftString += dateLeft > 0 ? "Осталось:" : "Прошло:";
 
   if (days > 0) dateLeftString += " " + days + " " + getNoun(days, ["день", "дня", "дней"]);
   if (hours > 0) dateLeftString += " " + hours + " " + getNoun(hours, ["час", "часа", "часов"]);
