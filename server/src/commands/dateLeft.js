@@ -7,14 +7,30 @@ export async function dateLeftConvers(conversation, ctx) {
     dateString = message.text || "";
   }
 
+  dateString = dateString.trim().toLowerCase();
+
+  if (dateString === "eva" || dateString === "ева") {
+    dateString = "18.04.2010";
+  }
+
+  if (dateString === "gala" || dateString === "галя" || dateString === "mama" || dateString === "мама") {
+    dateString = "04.07.1987";
+  }
+
   const html = downCounter(dateString);
 
   return await ctx.reply(html, { parse_mode: "HTML" });
 }
 
 function downCounter(dateString) {
-  const date = new Date(dateString);
   let dateLeftString = "";
+  let date;
+
+  if (dateString.split(".").length > 2) {
+    date = new Date(dateString.replace(/(\d{2})\.(\d{2})\.(\d{4})/, "$3-$2-$1"));
+  } else {
+    date = new Date(dateString);
+  }
 
   // invalid
   if (!(date > 0)) {
