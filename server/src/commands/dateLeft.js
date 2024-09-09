@@ -10,11 +10,11 @@ export async function dateLeftConvers(conversation, ctx) {
   dateString = dateString.trim().toLowerCase();
 
   if (dateString === "eva" || dateString === "ева") {
-    dateString = "18.04." + new Date().getFullYear() + 1;
+    dateString = "18.04." + (new Date().getFullYear() + 1);
   }
 
   if (dateString === "gala" || dateString === "галя" || dateString === "mama" || dateString === "мама") {
-    dateString = "04.07." + new Date().getFullYear() + 1;
+    dateString = "04.07." + (new Date().getFullYear() + 1);
   }
 
   const html = downCounter(dateString);
