@@ -4,8 +4,8 @@ import { conversations, createConversation } from "@grammyjs/conversations";
 import { wikiConvers, searchWikiWithVariants, wikiMenu } from "./commands/wiki.js";
 import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
-// import capitalsDB from "./capitals/capitals_db.js";
 import { capitalsConvers, searchCapitals } from "./capitals/capitals.js";
+import { dateLeftConvers } from "./commands/dateLeft.js";
 
 const prisma = new PrismaClient();
 
@@ -35,6 +35,7 @@ export default function getBot() {
   bot.use(createConversation(wikiConvers));
   bot.use(createConversation(citiesGameConvers));
   bot.use(createConversation(capitalsConvers));
+  bot.use(createConversation(dateLeftConvers));
 
   async function responseTime(ctx, next) {
     // take time before
@@ -68,6 +69,10 @@ export default function getBot() {
   }
 
   bot.use(responseTime);
+
+  bot.command("date_left", async (ctx) => {
+    await ctx.conversation.enter("dateLeftConvers");
+  });
 
   bot.command("hotkeys", (ctx) => {
     const hotkeyText =
@@ -300,16 +305,20 @@ export default function getBot() {
       description: "мини-игры",
     },
     {
-      command: "hotkeys",
-      description: "список горячих клавиш",
-    },
-    {
       command: "capitals",
       description: "страны и столицы",
     },
     {
       command: "formulas",
       description: "формулы сокращенного умножения",
+    },
+    {
+      command: "date_left",
+      description: "сколько осталось до даты",
+    },
+    {
+      command: "hotkeys",
+      description: "список горячих клавиш",
     },
   ]);
 
