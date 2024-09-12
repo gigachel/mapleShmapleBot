@@ -6,7 +6,7 @@ import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
 import { capitalsConvers, searchCapitals } from "./capitals/capitals.js";
 import { dateLeftConvers } from "./commands/dateLeft.js";
-import { getRandomTibetFox } from "./commands/tibetFox/tibetFox.js";
+import { getRandomTibetFox } from "./tibetFox/tibetFox.js";
 
 const prisma = new PrismaClient();
 
