@@ -8,8 +8,9 @@ export async function getRandomTibetFox() {
 
   const randomNum = random(1, jpgCount);
   console.log("[LOG] : getRandomTibetFox : randomNum:", randomNum);
+  console.log("[LOG] : getRandomTibetFox : import.meta.dirname:", import.meta.dirname);
 
-  return new InputFile("./" + randomNum + ".jpg");
+  return new InputFile(import.meta.dirname + "/" + randomNum + ".jpg");
 }
 
 export function random(min, max) {
