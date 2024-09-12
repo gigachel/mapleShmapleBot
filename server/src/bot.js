@@ -134,8 +134,8 @@ export default function getBot() {
   });
 
   bot.command("tibet_fox", async (ctx) => {
-    const fox = getRandomTibetFox();
-    ctx.replyWithPhoto(fox.image);
+    const foxImage = await getRandomTibetFox();
+    ctx.replyWithPhoto(foxImage);
   });
 
   bot.command("wiki", async (ctx) => {
