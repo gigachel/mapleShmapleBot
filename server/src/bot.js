@@ -239,11 +239,19 @@ export default function getBot() {
       return;
     }
 
-    exec("../../deploy.sh", function (err, stdout, stderr) {
-      console.log("[LOG] : err:", err);
-      console.log("[LOG] : stdout:", stdout);
-      console.log("[LOG] : stderr:", stderr);
-    });
+    // exec("../../deploy.sh", function (err, stdout, stderr) {
+    //   console.log("[LOG] : err:", err);
+    //   console.log("[LOG] : stdout:", stdout);
+    //   console.log("[LOG] : stderr:", stderr);
+    // });
+
+    try {
+      await exec("../deploy.sh");
+      ctx.reply("start update");
+    } catch (error) {
+      console.log(error, "error");
+      ctx.reply("error: " + error);
+    }
   });
 
   bot.hears(/столиц[аы] (.+)/i, (ctx) => {
@@ -295,7 +303,7 @@ export default function getBot() {
   bot.on("message", async (ctx) => {
     const user = ctx.update.message.from;
 
-    return ctx.reply("Hello123, " + user.first_name + "!");
+    return ctx.reply("Hello1234, " + user.first_name + "!");
     // return ctx.reply(ctx);
     // return ctx.reply(upsertUser);
   });
