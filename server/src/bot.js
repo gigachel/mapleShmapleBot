@@ -239,7 +239,7 @@ export default function getBot() {
       return;
     }
 
-    exec("./deploy.sh", function (err, stdout, stderr) {
+    exec("../../deploy.sh", function (err, stdout, stderr) {
       console.log("[LOG] : err:", err);
       console.log("[LOG] : stdout:", stdout);
       console.log("[LOG] : stderr:", stderr);
@@ -295,7 +295,7 @@ export default function getBot() {
   bot.on("message", async (ctx) => {
     const user = ctx.update.message.from;
 
-    return ctx.reply("Hello1, " + user.first_name + "!");
+    return ctx.reply("Hello12, " + user.first_name + "!");
     // return ctx.reply(ctx);
     // return ctx.reply(upsertUser);
   });
