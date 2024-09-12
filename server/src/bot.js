@@ -312,7 +312,7 @@ export default function getBot() {
   bot.on("message", async (ctx) => {
     const user = ctx.update.message.from;
 
-    return ctx.reply("Hello1234, " + user.first_name + "!");
+    return ctx.reply("Hello12345, " + user.first_name + "!");
     // return ctx.reply(ctx);
     // return ctx.reply(upsertUser);
   });
