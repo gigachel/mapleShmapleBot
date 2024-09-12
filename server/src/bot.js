@@ -240,7 +240,7 @@ export default function getBot() {
     }
 
     // import.meta.dirname
-    exec(import.meta.dirname + "../../deploy.sh", function (error, stdout, stderr) {
+    exec(import.meta.dirname + "/../../deploy.sh", function (error, stdout, stderr) {
       console.log("[LOG] : error:", error);
       console.log("[LOG] : stdout:", stdout);
       console.log("[LOG] : stderr:", stderr);
