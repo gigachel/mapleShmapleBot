@@ -239,19 +239,28 @@ export default function getBot() {
       return;
     }
 
-    // exec("../../deploy.sh", function (err, stdout, stderr) {
-    //   console.log("[LOG] : err:", err);
-    //   console.log("[LOG] : stdout:", stdout);
-    //   console.log("[LOG] : stderr:", stderr);
-    // });
+    // import.meta.dirname
+    exec("../deploy.sh", function (error, stdout, stderr) {
+      console.log("[LOG] : error:", error);
+      console.log("[LOG] : stdout:", stdout);
+      console.log("[LOG] : stderr:", stderr);
 
-    try {
-      await exec("../deploy.sh");
-      ctx.reply("start update");
-    } catch (error) {
-      console.log(error, "error");
-      ctx.reply("error: " + error);
-    }
+      if (error) {
+        ctx.reply("error: " + error);
+      } else {
+        ctx.reply("start update");
+      }
+    });
+
+    // resolve(stdout)
+
+    // try {
+    //   await exec("../deploy.sh");
+    //   ctx.reply("start update");
+    // } catch (error) {
+    //   console.log(error, "error");
+    //   ctx.reply("error: " + error);
+    // }
   });
 
   bot.hears(/столиц[аы] (.+)/i, (ctx) => {
