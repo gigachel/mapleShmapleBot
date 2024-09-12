@@ -4,14 +4,9 @@ import { InputFile } from "grammy";
 export async function getRandomTibetFox() {
   let { length: jpgCount } = await fs.readdirSync(import.meta.dirname);
 
-  console.log("[LOG] : getRandomTibetFox : jpgCount:0000", jpgCount);
-
   jpgCount = jpgCount - 1; // не считаем файл tibetFox.js
-  console.log("[LOG] : getRandomTibetFox : jpgCount:", jpgCount);
 
   const randomNum = random(1, jpgCount);
-  console.log("[LOG] : getRandomTibetFox : randomNum:", randomNum);
-  console.log("[LOG] : getRandomTibetFox : import.meta.dirname:", import.meta.dirname);
 
   return new InputFile(import.meta.dirname + "/" + randomNum + ".jpg");
 }

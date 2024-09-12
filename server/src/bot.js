@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import { PrismaClient } from "@prisma/client";
 import { Bot, session, InlineKeyboard } from "grammy";
 import { conversations, createConversation } from "@grammyjs/conversations";
@@ -229,6 +230,20 @@ export default function getBot() {
   bot.hears("users", async (ctx) => {
     const users = await prisma.user.findMany();
     return ctx.reply(users);
+  });
+
+  bot.hears("selfupdate", async (ctx) => {
+    const user = ctx.update.message?.from;
+
+    if (!user || String(user.id) !== "379616681") {
+      return;
+    }
+
+    exec("./deploy.sh", function (err, stdout, stderr) {
+      console.log("[LOG] : err:", err);
+      console.log("[LOG] : stdout:", stdout);
+      console.log("[LOG] : stderr:", stderr);
+    });
   });
 
   bot.hears(/столиц[аы] (.+)/i, (ctx) => {
