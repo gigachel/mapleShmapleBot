@@ -5,6 +5,7 @@ export async function getRandomTibetFox() {
   let { length: jpgCount } = await fs.readdirSync("./");
 
   jpgCount = jpgCount - 1; // не считаем файл tibetFox.js
+  console.log("[LOG] : getRandomTibetFox : jpgCount:", jpgCount);
 
   const randomNum = random(1, jpgCount);
   console.log("[LOG] : getRandomTibetFox : randomNum:", randomNum);
