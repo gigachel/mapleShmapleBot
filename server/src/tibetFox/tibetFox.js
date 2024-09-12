@@ -2,7 +2,9 @@ import fs from "fs";
 import { InputFile } from "grammy";
 
 export async function getRandomTibetFox() {
-  let { length: jpgCount } = await fs.readdirSync("./");
+  let { length: jpgCount } = await fs.readdirSync(import.meta.dirname);
+
+  console.log("[LOG] : getRandomTibetFox : jpgCount:0000", jpgCount);
 
   jpgCount = jpgCount - 1; // не считаем файл tibetFox.js
   console.log("[LOG] : getRandomTibetFox : jpgCount:", jpgCount);
