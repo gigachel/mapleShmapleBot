@@ -6,6 +6,7 @@ import { citiesGameConvers } from "./city/cities.js";
 import citiesDB from "./city/cities_db.js";
 import { capitalsConvers, searchCapitals } from "./capitals/capitals.js";
 import { dateLeftConvers } from "./commands/dateLeft.js";
+import { getRandomTibetFox } from "./commands/tibetFox/tibetFox.js";
 
 const prisma = new PrismaClient();
 
@@ -129,6 +130,11 @@ export default function getBot() {
 
   bot.command("fox", async (ctx) => {
     const fox = await (await fetch("https://randomfox.ca/floof/")).json();
+    ctx.replyWithPhoto(fox.image);
+  });
+
+  bot.command("tibet_fox", async (ctx) => {
+    const fox = getRandomTibetFox();
     ctx.replyWithPhoto(fox.image);
   });
 
@@ -287,6 +293,10 @@ export default function getBot() {
     {
       command: "fox",
       description: "рандомная лиса",
+    },
+    {
+      command: "tibet_fox",
+      description: "рандомная тибетская лиса",
     },
     {
       command: "cat",
